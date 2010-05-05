@@ -1,0 +1,42 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+  <head>
+    <title>Mapy - {% block title-tag %}mapy - czasy - dzienniki - społeczność biegaczy{% endblock %}</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <link rel="stylesheet" href="{% url stylesheets 'default.css' %}" type="text/css" />
+    <link rel="stylesheet" href="{% url stylesheets 'jquery.css' %}" type="text/css" />
+    <script src="http://maps.google.com/maps?file=api&amp;v=2&amp;sensor=true&amp;key=ABQIAAAARtgGcreT8mcHo_A9aem2xRRYPJ29ta-mlKltAJ_e3uTnSICI-RTGu_16Z6dS3c-lgtAUvvnzFe2DSQ" type="text/javascript"></script>
+    <script type="text/javascript" src="{% url javascripts 'jquery.js' %}"></script>
+    <script type="text/javascript" src="{% url javascripts 'jquery-ui.js' %}"></script>
+    {% block head %}{% endblock %}
+  </head>
+  {% block body-tag %}<body>{% endblock %}
+      <div id="page">
+          <div id="user">
+              {% if request.user.is_authenticated %}
+                Witaj <a href="{% url profile request.user.username %}">{{ request.user.username }}</a>
+                &middot;
+                <a href="{% url my-profile %}">Moje konto</a>
+                &middot;
+                <a href="{% url edit-profile %}">Edytuj konto</a>
+                &middot;
+                <a href="{% url logout %}">Wyloguj</a>
+              {% else %}
+              <a href="{% url login %}">Zaloguj się</a>
+              &middot;
+              <a href="{% url new-profile %}">Nowy biegacz</a>
+              {% endif %}
+          </div>
+          <div id="top"><a class="home" href="{% url root %}">Mapy</a>{% if request.user.is_authenticated %}<a class="profile" href="{% url profile request.user.username %}">/{{ user.username }}</a>{% endif %}</div>
+          <div id="nav">
+              <a href="{% url maps %}">Pokaż trasy</a>
+          </div>
+          <div id="content">
+              {% block content %}{% endblock %}
+          </div>
+          <div id="footer">
+              {% include 'footer.html' %}
+          </div>
+      </div>
+  </body>
+</html>

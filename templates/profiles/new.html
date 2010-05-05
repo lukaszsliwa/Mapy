@@ -1,0 +1,17 @@
+{% extends 'default.html' %}
+
+{% block title-tag %}zaloguj się{% endblock %}
+
+{% block content %}
+<h2>Zaloguj się</h2>
+
+<form action="{% url new-profile %}" method="post">
+    <table class="center">
+        {{ form.as_table }}
+        <tr>
+            <td></td>
+            <td style="text-align: right"><input type="submit" value="Zarejestruj się"></td>
+        </tr>
+    </table>
+</form>
+{% endblock %}

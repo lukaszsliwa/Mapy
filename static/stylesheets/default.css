@@ -1,0 +1,273 @@
+/* 
+    Document   : default
+    Created on : 2010-02-10, 13:47:46
+    Author     : crh
+    Description:
+        Purpose of the stylesheet follows.
+*/
+
+body {
+    margin: 0;
+}
+
+img {
+    border: 0;
+    vertical-align: middle;
+}
+
+a, a:link {
+    color: #0000ff;
+    text-decoration: none;
+}
+
+#page {
+    width: 760px;
+    margin: 0 auto 0 auto;
+}
+
+#page #top {
+    font-size: 50px;
+    font-family: "Georgia"
+}
+
+#top a.home, #top a.home:link {
+    color: #000000;
+    text-decoration: none;
+}
+
+#top a.profile, #top a.profile:link {
+    color: #b8b8b8;
+    text-decoration: none;
+}
+
+#footer {
+    margin-top: 200px;
+    padding: 4px;
+    font-size: 15px;
+    font-family: Verdana;
+}
+
+#user {
+    padding: 3px;
+    text-align: right;
+    font-size: 12px;
+    font-family: "terbuhet", Verdana;
+}
+
+#user a, #user a:link {
+    color: #707070;
+    text-decoration: none;
+}
+
+#user a:hover {
+    color: #464646;
+}
+
+#nav {
+    text-align: right;
+    padding: 5px;
+}
+
+#nav a, #nav a:link {
+    font-size: 20px;
+    font-weight: bold;
+    font-family: "Georgia";
+    text-decoration: none;
+    color: #4b7ab3;
+}
+
+#map {
+    border: 1px solid #eaeaea;
+}
+
+label {
+    font-size: 25px;
+}
+
+input[type="text"], input[type="password"]{/*, input[type="file"] {*/
+    font-size: 25px;
+    padding: 5px;
+}
+
+input[type="submit"] {
+    font-size: 20px;
+    padding: 6px;
+}
+
+.center {
+    margin: 0 auto 0 auto;
+}
+
+.errors {
+    padding: 5px;
+    font-family: Verdana;
+    border: 1px solid #ff7979;
+    background-color: #ffb6b6;
+}
+
+div.box {
+    padding: 5px;
+}
+
+div.box .left {
+    float: left
+}
+
+div.box .right {
+    float: right
+}
+
+div.clear {
+    clear: both;
+}
+
+#length {
+    font-size: 35px;
+}
+
+.nav-icon {
+    width: 31px;
+    height: 31px;
+    cursor: pointer;
+}
+
+#hand {
+    background: url('/static/images/hand_out.png') no-repeat center center;
+}
+
+#hand.selected {
+    background: url('/static/images/hand_on.png') no-repeat center center;
+}
+
+#line {
+    background: url('/static/images/line_out.png') no-repeat center center;
+}
+
+#line.selected {
+    background: url('/static/images/line_on.png') no-repeat center center;
+}
+
+#save {
+    background: url('/static/images/savedisk.png') no-repeat center center;
+    width: 31px;
+    height: 31px;
+    cursor: pointer;
+}
+
+table.list {
+    width: 100%;
+    font-family: Verdana;
+    font-size: 15px;
+}
+
+table.list td {
+    padding: 5px;
+    border: 1px solid #eaeaea;
+}
+
+table.list td.color {
+    width: 15px;
+}
+
+table.list td .tags {
+    text-align: right;
+}
+
+table.list td .tags a {
+    font-size: 9px;
+    color: #000000;
+}
+
+table.list td.icon {
+    width: 15px;
+}
+
+table.list th {
+    background-color: #eaeaea;
+}
+
+a.tag:link, a.tag{
+    color: #767676;
+    text-decoration: none;
+}
+
+/* ikony */
+img.weather-icon {
+    cursor: pointer;
+    border: 1px solid #ffffff;
+}
+
+img.weather-icon:hover {
+    border: 1px solid #ff0000;
+}
+
+a.icon {
+    padding: 5px 16px;
+    border: 1px solid #ffffff;
+}
+
+a.icon:hover {
+    border: 1px solid #eaeaea;
+}
+
+a.comments-icon {
+    background: url('/static/images/icons/comments.png') no-repeat center center;
+}
+
+a.star-icon {
+    background: url('/static/images/icons/star.png') no-repeat center center;
+}
+
+a.email-icon {
+    background: url('/static/images/icons/email.png') no-repeat center center;
+}
+
+a.link-icon {
+    background: url('/images/icons/link.png') no-repeat center center;
+}
+
+.comments {
+    width: 70%;
+    margin: 0 auto 0 auto;
+}
+
+.notice {
+    font-family: 'Lucida Grande', sans-serif, Verdana;
+    font-size: 0.85em;
+}
+
+.notice a, .notice a:link {
+    color: #00468F;
+    font-weight: bold;
+}
+
+.comment {
+    margin-top: 20px;
+    border-bottom: 1px solid #eaeaea;
+}
+
+.notice .text {
+    padding: 5px;
+    margin-left: 20px;
+}
+
+.comment .result {
+    padding: 10px;
+    width: 350px;
+}
+
+.notice .bottom {
+    padding: 5px;
+    font-size: 10px;
+    text-align: right;
+}
+
+.counter {
+    text-align: right;
+    font-size: 35px;
+    padding: 5px;
+}
+
+.hide {
+    display: none;
+}

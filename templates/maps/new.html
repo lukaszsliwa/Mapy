@@ -1,0 +1,74 @@
+{% extends 'default.html' %}
+
+{% block body-tag %}<body onload="init()" onunload="GUnload()">{% endblock %}
+{% block head %}
+    <link rel="stylesheet" href="{% url stylesheets 'jquery.css' %}" type="text/css" />
+    <link rel="stylesheet" href="{% url stylesheets 'jquery.autocomplete.css' %}" type="text/css" />
+    <script type="text/javascript" src="{% url javascripts 'jquery-ui.js' %}"></script>
+    <script type="text/javascript" src="{% url javascripts 'jquery.autocomplete.js' %}"></script>
+    <script type="text/javascript" src="{% url javascripts 'application.js' %}"></script>
+    <script type="text/javascript">
+        $(document).ready(function() {
+            $('#city').autocomplete('/miasta?format=plain')
+            $('#dialog').dialog({
+                    bgiframe: true,
+                    modal: true,
+                    autoOpen: false,
+                    width: 500,
+                    resizable: false,
+                    buttons: {
+                        "Anuluj": function() { $(this).dialog("close") },
+                        "Utwórz trasę": function() { $('#create-route').submit(); $(this).dialog("close"); }
+                    }
+                });
+            $('#search').keyup(function(event) {
+                if (event.keyCode == 13) {
+                    search($(this).val())
+                }
+            })
+            $('.nav-icon').click(function() {
+                $('.nav-icon').removeClass('selected');
+                $(this).addClass('selected');
+                if ($(this).attr('id') == 'line') {
+                    start();
+                } else {
+                    stop();
+                }
+            });
+            $('#save').click(function() {
+                var latlngs = latlngsToString(poly)
+                if (latlngs) {
+                    $('#id_latlngs').val(latlngs);
+                    $('#dialog').dialog('open');
+                }
+            });
+        });
+    </script>
+{% endblock %}
+{% block content %}
+    <div id="dialog" title="Zapisz trasę">
+	<p>W poniższe pola wpisz nazwę i słowa kluczowe, które najlepiej opisują
+        utworzoną przez Ciebie trasę.</p>
+        <form id="create-route" action="{% url new-map %}" method="post">
+            <table>
+            {{ form.as_table }}
+            </table>
+        </form>
+    </div>
+    <div class="box">
+        <div class="left"><input id="search" type="text" value="Polska"></div>
+        <div class="left"><input type="submit" onclick="search($('#search').val())" value="Szukaj"></div>
+        <div id="length" class="right">0 km</div>
+    </div>
+    <div class="clear"></div>
+    <div id="map" style="width: 100%; height: 400px"></div>
+    <div class="box">
+        <div id="save" title="Zapisz mapę" class="right"></div>
+        <div class="right" style="padding: 2px;"></div>
+        <div id="hand" title="Złap" class="nav-icon selected right"></div>
+        <div class="right" style="padding: 2px;"></div>
+        <div id="line" title="Rysuj trasę" class="nav-icon right"></div>
+    </div>
+    <div class="clear"></div>
+
+{% endblock %}

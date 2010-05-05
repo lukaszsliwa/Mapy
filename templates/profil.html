@@ -1,0 +1,39 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+  <head>
+    <title>2run.pl - {% block title %}mapy - czasy - dzienniki - społeczność biegaczy{% endblock %}</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <link rel="stylesheet" href="/stylesheets/default.css" type="text/css" />
+    <script type="text/javascript" src="/javascripts/jquery.js"></script>
+    {% block head %}{% endblock %}
+  </head>
+  <body onload="init()" onunload="GUnload()">
+      <div id="page">
+          <div id="user">
+              {% if user %}
+                Witaj <a href="/{{user.login}}">{{ user }}</a>
+                &middot;
+                <a href="/konto">Moje konto</a>
+                &middot;
+                <a href="/edytuj">Edytuj konto</a>
+                &middot;
+                <a href="/wyloguj">Wyloguj</a>
+              {% else %}
+              <a href="/zaloguj">Zaloguj się</a>
+              &middot;
+              <a href="/nowy">Nowy biegacz</a>
+              {% endif %}
+          </div>
+          <div id="top"><a class="home" href="/">2run.pl</a>{% if runner %}<a class="profile" href="/{{ runner.login }}">/{{ runner.login }}</a>{% endif %}</div>
+          <div id="nav">
+              <a href="/trasy">Pokaż trasy</a>
+          </div>
+          <div id="content">
+              {% block content %}{% endblock %}
+          </div>
+          <div id="footer">
+              {% include '../partial/footer.html' %}
+          </div>
+      </div>
+  </body>
+</html>
