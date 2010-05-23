@@ -15,6 +15,34 @@ img {
     vertical-align: middle;
 }
 
+ul {
+   list-style-type: none;
+}
+
+ul.errorlist {
+    font-family: Verdana;
+    border: 1px solid #ff0000;
+    background-color: #ffdddd;
+    padding: 3px;
+}
+
+ul li.comment {
+    font-family: Verdana;  
+}
+
+ul li.comment .top {
+    color: #999999;
+}
+
+ul li.comment .content {
+    margin-left: 100px;
+    padding: 5px;
+}
+
+ul li.comment .bottom {
+    text-align: right;
+}
+
 a, a:link {
     color: #0000ff;
     text-decoration: none;
@@ -81,17 +109,23 @@ a, a:link {
 }
 
 label {
-    font-size: 25px;
+    font-size: 12px;
+    font-family: Verdana;
+}
+
+input, text {
+    font-size: 16px;
+    font-family: Verdana;
 }
 
 input[type="text"], input[type="password"]{/*, input[type="file"] {*/
-    font-size: 25px;
-    padding: 5px;
+    font-size: 16px;
+    padding: 2px;
 }
 
 input[type="submit"] {
-    font-size: 20px;
-    padding: 6px;
+    font-size: 16px;
+    padding: 2px;
 }
 
 .center {

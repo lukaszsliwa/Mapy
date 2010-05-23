@@ -2,6 +2,8 @@ from django.views.generic.simple import direct_to_template
 from django.shortcuts import redirect
 from forms import NewMapForm
 from models import Map
+from comments.forms import CommentForm
+from comments.models import Comment
 
 def index(request, tag=None):
     if tag:
@@ -20,11 +22,15 @@ def new(request):
             map.latlngs = form.cleaned_data['latlngs']
             map.city = form.cleaned_data['city']
             map.save()
-            return redirect('map', slug=map.slug)
+            return redirect('map', slug=map.slug, map_id=map.id)
     elif request.method == 'GET':
         form = NewMapForm()
     return direct_to_template(request, 'maps/new.html', { 'form': form })
 
-def show(request, slug):
-    map = Map.objects.get(slug=slug)
-    return direct_to_template(request, 'maps/show.html', { 'map': map })
+def show(request, map_id, slug):
+    map = Map.objects.get(pk=map_id)
+    comments = map.comment_set.order_by('-created_at')
+    comment = Comment()
+    comment.map = map
+    form = CommentForm(instance=comment)
+    return direct_to_template(request, 'maps/show.html', { 'map': map, 'form': form, 'comments': comments })

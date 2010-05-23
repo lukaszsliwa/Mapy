@@ -85,9 +85,12 @@ INSTALLED_APPS = (
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.sites',
+    'comments',
     'profiles',
     'maps',
 )
+
+COMMENTS_APP = 'comments'
 
 LOGIN_URL = '/zaloguj/'
 LOGOUT_URL = '/wyloguj/'

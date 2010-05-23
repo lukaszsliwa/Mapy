@@ -1,6 +1,6 @@
 {% extends 'default.html' %}
 
-{% block title %}trasy - {{ route.name }}{% endblock %}
+{% block title-tag %}{{ map.name|title }}{% endblock %}
 
 {% block body-tag %}<body onload="init()" onunload="GUnload()">{% endblock %}
 
@@ -176,7 +176,8 @@
         <div class="errors hide"></div>
     </form>
 </div>
-<h2>{{ map }}</h2>
+        <a name="komentarze"></a>
+<h2>{{ map|title }}</h2>
 <div class="box">
     <div class="left">
         <a class="comments-icon icon" href="#komentarze" title="komentarze"></a>
@@ -198,5 +199,45 @@
     </div>
 </div>
 <div class="clear"></div>
+<h2>Komentarze</h2>
+
+<ul id="comments">
+{% for comment in comments %}
+    <li class="comment" id="comment-{{ comment.id }}">
+        <a name="komentarz-{{ comment.id }}"></a>
+        <div class="top">Dodane przez <a href="{% url profile comment.user %}">{{ comment.user }}</a>:</div>
+        <div class="content">
+            {{ comment.content }}
+            
+            <ul class="time">
+                {% if comment.time %}
+                <li>Czas: {{ comment.time }}s</li>
+                {% endif %}
+                {% if comment.weather or comment.part_of_the_day %}
+                <li>{{ comment.weather_name }} &middot; {{ comment.part_of_the_day_name }}</li>
+                {% endif %}
+            </ul>
+            
+        </div>
+        <div class="bottom">
+            <a class="permalink" href="#komentarz-{{ comment.id }}">#</a>
+        </div>
+    </li>
+{% empty %}
+    Brak komentarzy.
+{% endfor %}
+</ul>
+
+<h2>Nowy komentarz</h2>
+<form action="{% url create-comment map.id %}" method="post">
+<table>
+  {{ form.as_table }}
+  <tr>
+    <td></td>
+    <td><input type="submit" value="Utwórz komentarz"></td>
+  </tr>
+</table>
+</form>
+
 
 {% endblock %}
