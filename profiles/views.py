@@ -6,9 +6,12 @@ from forms import LoginForm, ProfileForm, EditProfileForm
 from django.db.models import Q
 from django.contrib.auth.models import User
 from django.contrib.auth.decorators import login_required
+from maps.models import Map
+from favorites.models import Favorite
 
 @login_required
 def index(request):
+    favorites = Favorite.objects.favorites_for_model(Map, request.user)
     return direct_to_template(request, 'profiles/index.html', locals())
 
 def show(request, username):

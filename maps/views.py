@@ -4,6 +4,9 @@ from forms import NewMapForm
 from models import Map
 from comments.forms import CommentForm
 from comments.models import Comment
+from favorites.models import Favorite
+from django.contrib.auth.decorators import login_required
+from django.http import HttpResponse
 
 def index(request, tag=None):
     if tag:
@@ -34,3 +37,10 @@ def show(request, map_id, slug):
     comment.map = map
     form = CommentForm(instance=comment)
     return direct_to_template(request, 'maps/show.html', { 'map': map, 'form': form, 'comments': comments })
+
+@login_required
+def like(request, map_id, slug):
+    map = Map.objects.get(pk=map_id)
+    if not Favorite.objects.favorite_for_user(map, request.user):
+        Favorite.objects.create_favorite(map, request.user)
+    return HttpResponse()

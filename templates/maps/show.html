@@ -182,10 +182,9 @@
     <div class="left">
         <a class="comments-icon icon" href="#komentarze" title="komentarze"></a>
         {% if request.user.is_authenticated %}
-        <a class="star-icon icon" href="" title="zapamiętaj tę mapę"></a>
+        <a class="star-icon icon" href="{% url like-map map.id map.slug %}" onclick="$.post($(this).attr('href')); $(this).hide(); return false" title="lubię to!"></a>
         {% endif %}
         <a class="email-icon icon" href="" title="wyślij link do mapy"></a>
-        <a class="link-icon icon" href="" title="skopiuj link"></a>
     </div>
     <div id="length" class="length right">0 km</div>
 </div>
@@ -229,6 +228,7 @@
 </ul>
 
 <h2>Nowy komentarz</h2>
+{% if request.user.is_authenticated %}
 <form action="{% url create-comment map.id %}" method="post">
 <table>
   {{ form.as_table }}
@@ -238,6 +238,9 @@
   </tr>
 </table>
 </form>
+{% else %}
+Aby móc komentować musisz się <a href="{% url login %}">zalogować</a>.
+{% endif %}
 
 
 {% endblock %}

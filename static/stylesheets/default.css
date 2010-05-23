@@ -249,7 +249,7 @@ a.comments-icon {
 }
 
 a.star-icon {
-    background: url('/static/images/icons/star.png') no-repeat center center;
+    background: url('/static/images/icons/heart.png') no-repeat center center;
 }
 
 a.email-icon {
