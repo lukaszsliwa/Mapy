@@ -64,7 +64,7 @@ MIDDLEWARE_CLASSES = (
     'django.contrib.auth.middleware.AuthenticationMiddleware',
 )
 
-ROOT_URLCONF = 'mapy.urls'
+ROOT_URLCONF = 'urls'
 
 TEMPLATE_DIRS = (
     'templates',
