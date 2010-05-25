@@ -3,6 +3,7 @@
     var poly = null;
     var options = { geodesic: true };
     var color = "#FF0000";
+    var marker = null;
 
     function init() {
       if (GBrowserIsCompatible()) {
@@ -14,9 +15,37 @@
         map.enableRotation();
 
         poly = new GPolyline([], color);
-
       }
     }
+
+    function init_marker() {
+	if(marker == null) {
+	  marker = new GMarker(map.getCenter(), {draggable: true});
+	
+	  GEvent.addListener(marker, "dragstart", function() {
+ 	    map.closeInfoWindow();
+  	  });
+
+	  GEvent.addListener(marker, "dblclick", function() {
+	    //marker.openInfoWindowHtml("lol");
+            openPointsDialog();
+  	  });
+
+	  map.addOverlay(marker);	
+	} else {
+	  marker.setLatLng(map.getCenter());
+	}
+    }
+    function openPointsDialog() {
+	if (marker != null){
+	    var latlng = marker.getLatLng();
+            $('#id_latit').val(latlng.lat());
+            $('#id_longi').val(latlng.lng());
+	    $('#dialog-point').dialog('open');
+	}
+    }
+
+
 
     function search(address) {
       if(geocoder) {

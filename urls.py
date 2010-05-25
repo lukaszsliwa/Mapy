@@ -20,6 +20,7 @@ urlpatterns = patterns('',
     (r'^mapy/', include('maps.urls')),
     url(r'^tag/(?P<tag>.+)/$', 'maps.views.index', name='tag'),
     (r'^profil/', include('profiles.urls')),
+    (r'^punkt/', include('points.urls')),
 
     (r'^komentarze/', include('comments.urls')),
 

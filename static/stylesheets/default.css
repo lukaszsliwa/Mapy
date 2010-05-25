@@ -181,6 +181,14 @@ div.clear {
     background: url('/static/images/line_on.png') no-repeat center center;
 }
 
+#point {
+    background: url('/static/images/point_out.png') no-repeat center center;
+}
+
+#point.selected {
+    background: url('/static/images/point_on.png') no-repeat center center;
+}
+
 #save {
     background: url('/static/images/savedisk.png') no-repeat center center;
     width: 31px;

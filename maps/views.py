@@ -1,6 +1,7 @@
 from django.views.generic.simple import direct_to_template
 from django.shortcuts import redirect
 from forms import NewMapForm
+from points.forms import NewPointForm
 from models import Map
 from comments.forms import CommentForm
 from comments.models import Comment
@@ -16,6 +17,7 @@ def index(request, tag=None):
     return direct_to_template(request, 'maps/index.html', { 'maps': maps})
 
 def new(request):
+    formpoint = NewPointForm()
     if request.method == 'POST':
         form = NewMapForm(request.POST)
         if form.is_valid():
@@ -28,7 +30,7 @@ def new(request):
             return redirect('map', slug=map.slug, map_id=map.id)
     elif request.method == 'GET':
         form = NewMapForm()
-    return direct_to_template(request, 'maps/new.html', { 'form': form })
+    return direct_to_template(request, 'maps/new.html', { 'form': form, 'formp':formpoint })
 
 def show(request, map_id, slug):
     map = Map.objects.get(pk=map_id)

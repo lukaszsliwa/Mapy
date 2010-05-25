@@ -5,6 +5,7 @@ from models import Point
 from django.contrib.auth.decorators import login_required
 from django.http import HttpResponse, HttpResponseRedirect
 
+@login_required
 def new(request):
     if request.method == 'POST':
     	form = NewPointForm(request.POST)

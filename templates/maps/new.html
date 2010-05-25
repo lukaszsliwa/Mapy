@@ -21,6 +21,18 @@
                         "Utwórz trasę": function() { $('#create-route').submit(); $(this).dialog("close"); }
                     }
                 });
+            $('#dialog-point').dialog({
+                    bgiframe: true,
+                    modal: true,
+                    autoOpen: false,
+                    width: 500,
+                    resizable: false,
+                    buttons: {
+                        "Anuluj": function() { $(this).dialog("close") },
+                        "Utwórz punkt": function() { $('#create-point').submit(); $(this).dialog("close"); }
+                    }
+                });
+
             $('#search').keyup(function(event) {
                 if (event.keyCode == 13) {
                     search($(this).val())
@@ -31,7 +43,10 @@
                 $(this).addClass('selected');
                 if ($(this).attr('id') == 'line') {
                     start();
-                } else {
+                } else if ($(this).attr('id') == 'point') {
+		    init_marker();
+		    stop();
+		} else {
                     stop();
                 }
             });
@@ -55,6 +70,14 @@
             </table>
         </form>
     </div>
+    <div id="dialog-point" title="Zapisz punkt">
+	<p>Dobierz odpowiedni opis do zaznaczonego punktu</p>
+        <form id="create-point" action="{% url new-point %}" method="post">
+            <table>
+            {{ formp.as_table }}
+            </table>
+        </form>
+    </div>
     <div class="box">
         <div class="left"><input id="search" type="text" value="Polska"></div>
         <div class="left"><input type="submit" onclick="search($('#search').val())" value="Szukaj"></div>
@@ -68,6 +91,8 @@
         <div id="hand" title="Złap" class="nav-icon selected right"></div>
         <div class="right" style="padding: 2px;"></div>
         <div id="line" title="Rysuj trasę" class="nav-icon right"></div>
+        <div class="right" style="padding: 2px;"></div>
+        <div id="point" title="Dodaj punkt" class="nav-icon right"></div>
     </div>
     <div class="clear"></div>
 

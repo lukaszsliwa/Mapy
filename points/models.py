@@ -10,7 +10,5 @@ class Point(models.Model):
     latit = models.FloatField()
     longi = models.FloatField()
 
-    created_on = models.DateTimeField(auto_now_add=True)
-    
     def __unicode__(self):
         return "%s created point (%s,%s)" % (self.user, self.latit, self.longi)

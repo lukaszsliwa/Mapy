@@ -89,6 +89,7 @@ INSTALLED_APPS = (
     'comments',
     'profiles',
     'maps',
+    'points',
 )
 
 COMMENTS_APP = 'comments'
