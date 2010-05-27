@@ -1,23 +1,20 @@
-"""
-This file demonstrates two different styles of tests (one doctest and one
-unittest). These will both pass when you run "manage.py test".
-
-Replace these with more appropriate tests for your application.
-"""
-
+# encoding: utf-8
 from django.test import TestCase
+from forms import CommentForm
 
-class SimpleTest(TestCase):
-    def test_basic_addition(self):
+class CommentsTest(TestCase):
+    def test_empty_comment(self):
         """
-        Tests that 1 + 1 always equals 2.
+        Próba zapisania pustego formularza
         """
-        self.failUnlessEqual(1 + 1, 2)
+        comment = CommentForm()
+        self.assertFalse(comment.is_valid())
 
-__test__ = {"doctest": """
-Another way to test that 1 + 1 is equal to 2.
-
->>> 1 + 1 == 2
-True
-"""}
+    def test_valid_comment(self):
+        """
+        Powinien zapisać poprawnie komentarz
+        """
+        comment = CommentForm({ 'content': 'Test'})
+        self.assertTrue(comment.is_valid())
+        
 
