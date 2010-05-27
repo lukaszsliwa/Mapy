@@ -8,6 +8,7 @@ from comments.models import Comment
 from favorites.models import Favorite
 from django.contrib.auth.decorators import login_required
 from django.http import HttpResponse
+from django.core.exceptions import ObjectDoesNotExist
 
 def index(request, tag=None):
     if tag:
@@ -30,7 +31,7 @@ def new(request):
             return redirect('map', slug=map.slug, map_id=map.id)
     elif request.method == 'GET':
         form = NewMapForm()
-    return direct_to_template(request, 'maps/new.html', { 'form': form, 'formp':formpoint })
+    return direct_to_template(request, 'maps/new.html', { 'form': form, 'formp': formpoint })
 
 def show(request, map_id, slug):
     map = Map.objects.get(pk=map_id)
@@ -42,7 +43,19 @@ def show(request, map_id, slug):
 
 @login_required
 def like(request, map_id, slug):
-    map = Map.objects.get(pk=map_id)
-    if not Favorite.objects.favorite_for_user(map, request.user):
-        Favorite.objects.create_favorite(map, request.user)
+    if request.method == 'POST':
+        map = Map.objects.get(pk=map_id)
+        try:
+            Favorite.objects.favorite_for_user(map, request.user)
+        except ObjectDoesNotExist:
+            Favorite.objects.create_favorite(map, request.user)
+    return HttpResponse()
+
+@login_required
+def unlike(request, map_id, slug):
+    if request.method == 'POST':
+        map = Map.objects.get(pk=map_id)
+        favorite = Favorite.objects.favorite_for_user(map, request.user)
+        if favorite:
+            favorite.delete()
     return HttpResponse()
