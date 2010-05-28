@@ -1,6 +1,7 @@
 # encoding: utf-8
 from django.test import TestCase
 from models import Time
+from forms import TimeForm
 
 class TimeTest(TestCase):
     def test_to_sec(self):
@@ -25,7 +26,6 @@ class TimeTest(TestCase):
             #Time.to_sec(template)
             self.assertRaises(Exception, Time.to_sec, (template,))
 
-            
     def test___unicode__(self):
         """
         Sprawdza poprawność wypisywanego czasu
@@ -39,4 +39,9 @@ class TimeTest(TestCase):
                         u'%s:%s:%s' % (hour, minute, second),
                         unicode(time), '%s:%s:%s %s' % (hour, minute, second, unicode(time)))
 
-
+    def test_valid(self):
+        """
+        Sprawdza poprawność formularzy
+        """
+        form = TimeForm()
+        self.assertTrue(form.is_valid(), str(form.errors))

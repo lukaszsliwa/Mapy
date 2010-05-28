@@ -8,10 +8,12 @@ from django.contrib.auth.models import User
 from django.contrib.auth.decorators import login_required
 from maps.models import Map
 from favorites.models import Favorite
+from stats.models import Time
 
 @login_required
 def index(request):
     favorites = Favorite.objects.favorites_for_model(Map, request.user)
+    times = Time.objects.all()
     return direct_to_template(request, 'profiles/index.html', locals())
 
 def show(request, username):

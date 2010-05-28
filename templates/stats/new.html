@@ -1,0 +1,17 @@
+{% extends 'default.html' %}
+
+{% block content %}
+<h2>Nowy czas do trasy <a title="{{ map|title }}" href="{% url map map.id map.slug %}">{{ map|title }}</a></h2>
+
+<form action="{% url add-time map.id %}" method="post">
+    <table>
+    {{ form.as_table }}
+    <tr>
+        <td></td>
+        <td>
+            <input type="submit" value="Dodaj">
+        </td>
+    </tr>
+    </table>
+</form>
+{% endblock %}

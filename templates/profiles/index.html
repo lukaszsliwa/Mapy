@@ -12,6 +12,18 @@
     <tr>
         <td><a href="{% url map favorite.content_object.id favorite.content_object.slug %}">{{ favorite.content_object.name|title }}</a></td>
         <td><a href="{% url unlike-map favorite.content_object.id favorite.content_object.slug %}" onclick="$.post($(this).attr('href')); $(this).parent().parent().hide(); return false">Usuń</a></td>
+        <td><a href="{% url new-time favorite.content_object.id %}">Pokonana trasa</a></td>
+    </tr>
+    {% endfor %}
+</table>
+
+<h2>Ostatnie czasy</h2>
+
+<table>
+    {% for time in times %}
+    <tr>
+        <td><a href="{% url map time.map.id time.map.slug %}">{{ time.map }}</a></td>
+        <td>{{ time }}</td>
     </tr>
     {% endfor %}
 </table>

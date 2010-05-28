@@ -27,10 +27,10 @@ class Time(models.Model):
     )
     map = models.ForeignKey(Map)
     user = models.ForeignKey(User)
-    seconds = models.IntegerField()
-    part_of_the_day = models.IntegerField(choices=PART_OF_THE_DAY)
-    weather = models.IntegerField(choices=WEATHER)
-    note = models.TextField()
+    seconds = models.IntegerField(verbose_name='Uzyskany czas')
+    part_of_the_day = models.IntegerField(choices=PART_OF_THE_DAY, verbose_name='Część dnia')
+    weather = models.IntegerField(choices=WEATHER, verbose_name='Pogoda')
+    note = models.TextField(verbose_name='Notatka')
 
     @staticmethod
     def to_sec(template):
@@ -48,6 +48,12 @@ class Time(models.Model):
         hours = self.seconds / (60 * 60)
         minutes = (self.seconds - hours * 60 * 60) / 60
         seconds = (self.seconds - (hours * 60 * 60) - minutes * 60)
+        if hours < 10:
+            hours = '0' + str(hours)
+        if minutes < 10:
+            minutes = '0' + str(minutes)
+        if seconds < 10:
+            seconds = '0' + str(seconds)
         return '%s:%s:%s' % (hours, minutes, seconds)
 
     __str__ = __unicode__
