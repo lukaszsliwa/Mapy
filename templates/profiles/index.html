@@ -11,6 +11,7 @@
     {% for favorite in favorites %}
     <tr>
         <td><a href="{% url map favorite.content_object.id favorite.content_object.slug %}">{{ favorite.content_object.name|title }}</a></td>
+        <td><a href="{% url unlike-map favorite.content_object.id favorite.content_object.slug %}" onclick="$.post($(this).attr('href')); $(this).parent().parent().hide(); return false">Usuń</a></td>
     </tr>
     {% endfor %}
 </table>

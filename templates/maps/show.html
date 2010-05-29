@@ -6,85 +6,6 @@
 
 {% block head %}
     <script type="text/javascript">
-        $(document).ready(function() {
-            $('#link-dialog').dialog({
-                bgiframe: true,
-                modal: true,
-                autoOpen: false,
-                width: 500,
-                resizable: false,
-                buttons: {
-                    "Zamknij": function() { $(this).dialog("close") },
-                }
-            });
-            $('#comment-dialog').dialog({
-                bgiframe: true,
-                modal: true,
-                autoOpen: {% if request.GET.auto %}true{% else %}false{% endif %},
-                width: 500,
-                resizable: false,
-                buttons: {
-                    "Zamknij": function() { $(this).dialog("close") },
-                    "Utwórz": function() {
-                        var valid = true;
-                        if (!$('#rounds').val().match(/^\d+$/)) {
-                            valid = false;
-                           
-                        }
-                        if ($('#text').val() || $('#time').val() || $('#km').is(':checked')) {
-                            if ($('#time').val()) {
-                                var items = $('#time').val().split(/:/);
-                                for(var index in items) {
-                                    var item = items[index];
-                                    //tylko liczby dodatnie
-                                    if (!item.match(/^\d+$/)) {
-                                        valid = false;
-                                    }
-                                }
-                                if (items.length > 1 && items.length < 4) {
-                                    var pos = items.length - 1;
-                                    var sec = parseInt(items[pos]);
-                                    var min = parseInt(items[pos-1]);
-                                    var hour = parseInt(items[pos-2])
-                                    if (sec >= 60) {
-                                        valid = false;
-                                    }
-                                    if (min >= 60) {
-                                        valid = false;
-                                    }
-
-                                } else {
-                                    valid = false;
-                                }
-                            }
-                            if (valid) {
-                                $('#comment').submit();
-                            } else {
-                                $('#comment-dialog div.errors').show();
-                                $('#comment-dialog div.errors').html('Nieprawidłowy format czasu. Poprawne formaty to godz:min:sek, min:sek');
-                            }
-                        } else {
-                            $('#comment-dialog div.errors').show();
-                            $('#comment-dialog div.errors').html('Musisz podać treść komentarza lub wynik');
-                        }
-                    }
-                }
-            });
-
-            $('.link-icon').click(function() {
-                $('#link-dialog').dialog('open');
-                return false;
-            });
-            $('.create-comment').click(function() {
-                $('#comment-dialog').dialog('open');
-                return false;
-            });
-            $('.weather-icon').click(function() {
-                $('#weather').val($(this).attr('alt'))
-                $('.weather-icon').css({ border: '1px solid #ffffff'});
-                $(this).css({ border: '1px solid #ff0000'});
-            });
-        });
 
         var latlngs = [
             {% for latlng in map.getlatlngs %}new GLatLng.fromUrlValue('{{latlng.0}},{{latlng.1}}'),{% endfor %}
@@ -132,51 +53,8 @@
 
 {% block content %}
 <a name="do-gory"></a>
-<div id="comment-dialog" title="Dodaj komentarz">
-    <form id="comment" action="/komentarze" method="post">
-        <input type="hidden" name="route_id" value="{{id}}" />
-        <input id="weather" type="hidden" name="weather" value="-1" />
-        <p>
-            <label for="text">Komentarz</label><br/>
-            <textarea id="text" name="text" rows="3" cols="43"></textarea>
-        </p>
-        {% if auto %}
-        <div class="result">
-        {% else %}
-        <a href="#" onclick="$(this).parent().children('div.result').toggle(); $(this).hide(); return false">Dodaj wynik</a>
-        <div class="result hide">
-        {% endif %}
-            <div class="box">
-                <input id="km" type="checkbox" name="km" value="0"><label for="km">dodaj <span class="length"></span> do licznika</label>
-            </div>
-            <div class="clear"></div>
-            <div class="box">
-                <div class="left">
-                    <label for="time">Czas</label>
-                    <input id="time" type="text" name="time" onclick="$('#km').attr('checked', true)" size="5" />
-                </div>
-                <div class="right">
-                    <label for="weather">Pogoda:</label>
-                    <img alt="0" class="weather-icon" src="/static/images/weather/upal.png" title="Upał" />
-                    <img alt="1" class="weather-icon" src="/static/images/weather/slonecznie.png" title="Słonecznie" />
-                    <img alt="2" class="weather-icon" src="/static/images/weather/pochmurnie.png" title="Pochmurnie" />
-                    <img alt="3" class="weather-icon" src="/static/images/weather/deszczowo.png" title="Deszczowo" />
-                    <img alt="4" class="weather-icon" src="/static/images/weather/snieznie.png" title="Śnieżnie" />
-                </div>
-            </div>
-            <div class="clear"></div>
-            <div class="box">
-                <div class="left">
-                    <label for="rounds">Liczba długości</label>
-                    <input id="rounds" type="text" name="rounds" size="2" value="1" /> x <span class="length"></span>
-                </div>
-            </div>
-            <div class="clear"></div>
-        </div>
-        <div class="errors hide"></div>
-    </form>
-</div>
-        <a name="komentarze"></a>
+
+<a name="komentarze"></a>
 <h2>{{ map|title }}</h2>
 <div class="box">
     <div class="left">
