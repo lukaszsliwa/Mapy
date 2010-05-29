@@ -8,6 +8,7 @@ class Map(models.Model):
     tags = models.CharField(max_length=512, verbose_name='Tagi')
     city = models.CharField(max_length=32, verbose_name='Miasto')
     latlngs = models.TextField(verbose_name='Współrzędne')
+    distance = models.FloatField(verbose_name='Dystans')
 
     def getlatlngs(self):
         '''

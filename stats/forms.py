@@ -21,4 +21,4 @@ class TimeForm(forms.ModelForm):
 
     class Meta:
         model = Time
-        fields = ['seconds', 'part_of_the_day', 'weather', 'note']
+        fields = ['rounds', 'seconds', 'part_of_the_day', 'weather', 'note']

@@ -27,10 +27,19 @@ class Time(models.Model):
     )
     map = models.ForeignKey(Map)
     user = models.ForeignKey(User)
+    rounds = models.IntegerField(verbose_name='Liczba rund')
     seconds = models.IntegerField(verbose_name='Uzyskany czas')
+    distance = models.FloatField()
     part_of_the_day = models.IntegerField(choices=PART_OF_THE_DAY, verbose_name='Część dnia')
     weather = models.IntegerField(choices=WEATHER, verbose_name='Pogoda')
     note = models.TextField(verbose_name='Notatka')
+
+    def save(self):
+        '''
+        Oblicza dystans przebytej trasy i zapisuje rekord do bazy
+        '''
+        self.distance = self.rounds * self.map.distance
+        super(Time, self).save()
 
     @staticmethod
     def to_sec(template):

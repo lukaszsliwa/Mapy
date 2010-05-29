@@ -14,6 +14,9 @@ from stats.models import Time
 def index(request):
     favorites = Favorite.objects.favorites_for_model(Map, request.user)
     times = Time.objects.all()
+    summary = 0.0
+    for time in times:
+        summary += time.distance
     return direct_to_template(request, 'profiles/index.html', locals())
 
 def show(request, username):

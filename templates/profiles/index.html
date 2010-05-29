@@ -4,6 +4,10 @@
 
 <h2>Witaj {{ request.user }}</h2>
 
+<p style="text-align: right">
+    Łącznie: {{ summary }} km
+</p>
+
 <table>
     <tr>
         <th>Nazwa mapy</th>
@@ -11,8 +15,9 @@
     {% for favorite in favorites %}
     <tr>
         <td><a href="{% url map favorite.content_object.id favorite.content_object.slug %}">{{ favorite.content_object.name|title }}</a></td>
-        <td><a href="{% url unlike-map favorite.content_object.id favorite.content_object.slug %}" onclick="$.post($(this).attr('href')); $(this).parent().parent().hide(); return false">Usuń</a></td>
-        <td><a href="{% url new-time favorite.content_object.id %}">Pokonana trasa</a></td>
+        <td><a href="{% url unlike-map favorite.content_object.id favorite.content_object.slug %}" onclick="$.post($(this).attr('href')); $(this).parent().parent().hide(); return false">Usuń</a>
+            &middot;
+        <a href="{% url new-time favorite.content_object.id %}">Pokonana trasa</a></td>
     </tr>
     {% endfor %}
 </table>
@@ -20,10 +25,16 @@
 <h2>Ostatnie czasy</h2>
 
 <table>
+    <tr>
+        <th>Mapa</th>
+        <th>Wynik</th>
+        <th>Dystans</th>
+    </tr>
     {% for time in times %}
     <tr>
         <td><a href="{% url map time.map.id time.map.slug %}">{{ time.map }}</a></td>
         <td>{{ time }}</td>
+        <td>{{ time.distance }} km</td>
     </tr>
     {% endfor %}
 </table>

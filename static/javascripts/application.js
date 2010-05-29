@@ -63,8 +63,9 @@
     }
 
     function km() {
-        var length = poly.getLength();
-        $('#length').html((Math.round(length / 10) / 100) + " km");
+        var length = Math.round(poly.getLength() / 10) / 100;
+        $('#length').html(length + " km");
+        $('#id_distance').val(length);
     }
 
     function start() {

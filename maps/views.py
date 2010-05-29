@@ -27,6 +27,7 @@ def new(request):
             map.tags = form.cleaned_data['tags']
             map.latlngs = form.cleaned_data['latlngs']
             map.city = form.cleaned_data['city']
+            map.distance = form.cleaned_data['distance']
             map.save()
             return redirect('map', slug=map.slug, map_id=map.id)
     elif request.method == 'GET':
