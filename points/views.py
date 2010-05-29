@@ -18,11 +18,12 @@ def new(request):
             point.save()
     return HttpResponseRedirect('/')
 
-def show(request, map_id, slug):
-    map = Map.objects.get(pk=map_id)
-    comments = map.comment_set.order_by('-created_at')
-    comment = Comment()
-    comment.map = map
-    form = CommentForm(instance=comment)
-    return direct_to_template(request, 'maps/show.html', { 'map': map, 'form': form, 'comments': comments })
+def show(request, SWLat, SWLng, NELat, NELng):
+    points = Point.objects.filter(latit__gte=SWLat).filter(longi__gte=SWLng)
+    points = points.filter(latit__lte=NELat).filter(longi__lte=NELng)
+    result = "{\"points\" : [ "
+    for point in points:
+	result += "{ \"lat\":%s,\"lng\":%s,\"desc\":\"%s\" }," % (point.latit, point.longi, point.desc)
+    result = result[:-1] + "]}"
+    return HttpResponse( result )
 
