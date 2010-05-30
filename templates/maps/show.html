@@ -10,6 +10,7 @@
         var latlngs = [
             {% for latlng in map.getlatlngs %}new GLatLng.fromUrlValue('{{latlng.0}},{{latlng.1}}'),{% endfor %}
         ];
+	var centerpoint = new GLatLng({{center.0}}, {{center.1}});
         var map = null;
         var poly = null;
         var options = { geodesic: true };
@@ -31,7 +32,7 @@
                 var bounds = new GLatLngBounds(new GLatLng(south, west),
                                                new GLatLng(north, east));
 
-                map.setCenter(bounds.getCenter(), map.getBoundsZoomLevel(bounds)-1);
+                map.setCenter(centerpoint, map.getBoundsZoomLevel(bounds)-1);
             });
 
             map.setUIToDefault();

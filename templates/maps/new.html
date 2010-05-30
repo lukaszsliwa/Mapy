@@ -6,6 +6,7 @@
     <link rel="stylesheet" href="{% url stylesheets 'jquery.autocomplete.css' %}" type="text/css" />
     <script type="text/javascript" src="{% url javascripts 'jquery-ui.js' %}"></script>
     <script type="text/javascript" src="{% url javascripts 'jquery.autocomplete.js' %}"></script>
+    <script type="text/javascript" src="/static/javascripts/markermanager.js"></script>
     <script type="text/javascript" src="{% url javascripts 'application.js' %}"></script>
     <script type="text/javascript">
         $(document).ready(function() {
@@ -51,9 +52,16 @@
                 }
             });
             $('#save').click(function() {
-                var latlngs = latlngsToString(poly)
+                var latlngs = latlngsToString(poly);
+		var bounds = poly.getBounds();
+		var sw = bounds.getSouthWest();
+		var ne = bounds.getNorthEast();
                 if (latlngs) {
                     $('#id_latlngs').val(latlngs);
+                    $('#id_swlat').val(sw.lat());
+                    $('#id_nelat').val(ne.lat());
+                    $('#id_swlng').val(sw.lng());
+                    $('#id_nelng').val(ne.lng());
                     $('#dialog').dialog('open');
                 }
             });

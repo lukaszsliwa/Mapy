@@ -6,15 +6,19 @@
     var marker = null;
     var markset = false;
     var markers = [];
+    var listeners = [];
+    var mgr = null;
 
     function init() {
       if (GBrowserIsCompatible()) {
-	points_overlay = new GOverlay()
         map = new GMap2(document.getElementById("map"));
         geocoder = new GClientGeocoder();
         map.setCenter(new GLatLng(52.32191088594773, 19.072265625), 6);
         map.setUIToDefault();
         map.enableRotation();
+//	GEvent.addListener(map, "moveend", function () {
+//		importPoints();	});
+	mgr = new MarkerManager(map);
 
         poly = new GPolyline([], color);
 	map.addControl(new TextualZoomControl());
@@ -24,7 +28,12 @@
 
     function init_marker() {
 	if(marker == null) {
-	  marker = new GMarker(map.getCenter(), {draggable: true});
+          var micon = new GIcon();
+	  micon.image = "/static/images/sc-star.png";
+	  micon.iconSize = new GSize(30,30);
+	  micon.iconAnchor = new GPoint(15, 20);
+
+	  marker = new GMarker(map.getCenter(), { icon : micon, draggable: true});
 	  GEvent.addListener(marker, "dragstart", function() {
  	    map.closeInfoWindow();
   	  });
@@ -113,7 +122,10 @@ TextualZoomControl.prototype.initialize = function(map) {
   this.setButtonStyle_(zoomInDiv);
   container.appendChild(zoomInDiv);
   zoomInDiv.appendChild(document.createTextNode("Punkty"));
-  GEvent.addDomListener(zoomInDiv, "click", importPoints);
+  GEvent.addDomListener(zoomInDiv, "click", function() {
+	if(markset){ markset = false; destroyPoints(); }
+	else { markset = true; importPoints(); }
+  });
 
 
   var zoomOutDiv = document.createElement("div");
@@ -146,29 +158,30 @@ TextualZoomControl.prototype.setButtonStyle_ = function(button) {
 }
 
  function importPoints() {
-    if (!markset){
-    markset = true;
     markers = [];
+    listeners = [];
     var bounds = map.getBounds();
     var SW = bounds.getSouthWest();
     var NE = bounds.getNorthEast();
-    $.getJSON("http://127.0.0.1:8000/punkt/"+SW.lat()+"/"+SW.lng()+"/"+NE.lat()+"/"+NE.lng()+"/",
+    $.getJSON("/punkt/"+SW.lat()+"/"+SW.lng()+"/"+NE.lat()+"/"+NE.lng()+"/",
         function(data){
           $.each(data.points, function(i,item){
 	    var point = new GMarker(new GLatLng(item.lat,item.lng));
 	    var evlis = GEvent.addListener(point, "click", function() {
 	    	point.openInfoWindowHtml(item.desc);
   	      });
-	    map.addOverlay(point);
-	    markers.push([point,evlis]);
+	    markers.push( point );
+	    listeners.push(evlis);
           });
+     	mgr.addMarkers(markers,5);
+        mgr.refresh();
         });
-    } else {
-	markset = false;
-	for ( i in markers ){
-		map.removeOverlay(markers[i][0]);
-		GEvent.removeListener(markers[i][1]);
+  }
+
+  function destroyPoints() {
+	mgr.clearMarkers();
+	for ( i in listeners ){
+		GEvent.removeListener(listeners[i]);
 	}
-    }
   }
 
