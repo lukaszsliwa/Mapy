@@ -19,7 +19,8 @@ def chart(username, type):
                 chd[day+1] = 0
                 chxl1 += '|' + str(day+1)
             for time in user.time_set.all():
-                chd[time.created_at.day] += time.distance
+                if time.created_at.month == month:
+                    chd[time.created_at.day] += time.distance
             max_distance, min_distance = 0, 0
             for day,distance in chd.items():
                 max_distance = distance if distance > max_distance else max_distance
