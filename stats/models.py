@@ -33,6 +33,7 @@ class Time(models.Model):
     part_of_the_day = models.IntegerField(choices=PART_OF_THE_DAY, verbose_name='Część dnia')
     weather = models.IntegerField(choices=WEATHER, verbose_name='Pogoda')
     note = models.TextField(verbose_name='Notatka')
+    created_at = models.DateTimeField(auto_now_add=True)
 
     def save(self):
         '''

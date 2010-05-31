@@ -25,7 +25,6 @@ urlpatterns = patterns('',
 
     (r'^komentarze/', include('comments.urls')),
 
-
     url(r'^nowy/$', 'profiles.views.new', name='new-profile'),
     url(r'^edytuj/$', 'profiles.views.edit', name='edit-profile'),
     url(r'^zaloguj/$', 'profiles.views.login', name='login'),

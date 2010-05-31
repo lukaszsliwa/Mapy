@@ -1,6 +1,7 @@
 {% extends 'default.html' %}
 {% block title %}konto{% endblock %}
 {% block content %}
+{% load charts %}
 
 <h2>Witaj {{ request.user }}</h2>
 
@@ -22,16 +23,20 @@
     {% endfor %}
 </table>
 
-<h2>Ostatnie czasy</h2>
+<h2>Pokonane kilometry</h2>
+
+<img alt="Wykres pokonanych kilometrów" src="{% chart request.user.username "0" %}">
 
 <table>
     <tr>
+        <th>Kiedy?</th>
         <th>Mapa</th>
         <th>Wynik</th>
         <th>Dystans</th>
     </tr>
     {% for time in times %}
     <tr>
+        <td>{{ time.created_at|date:"D d M Y" }}</td>
         <td><a href="{% url map time.map.id time.map.slug %}">{{ time.map }}</a></td>
         <td>{{ time }}</td>
         <td>{{ time.distance }} km</td>

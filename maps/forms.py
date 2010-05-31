@@ -8,3 +8,7 @@ class NewMapForm(forms.Form):
     city = forms.CharField(required=True, max_length=32, label='Miasto')
     latlngs = forms.CharField(required=True, widget=forms.HiddenInput)
     distance = forms.FloatField(required=True, widget=forms.HiddenInput)
+    nelat = forms.FloatField(required=True, widget=forms.HiddenInput)
+    nelng = forms.FloatField(required=True, widget=forms.HiddenInput)
+    swlat = forms.FloatField(required=True, widget=forms.HiddenInput)
+    swlng = forms.FloatField(required=True, widget=forms.HiddenInput)

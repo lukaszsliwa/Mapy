@@ -9,11 +9,14 @@ from django.contrib.auth.decorators import login_required
 from maps.models import Map
 from favorites.models import Favorite
 from stats.models import Time
+from django.http import HttpResponseRedirect
+
+GOOGLE_CHART = 'http://chart.apis.google.com/'
 
 @login_required
 def index(request):
     favorites = Favorite.objects.favorites_for_model(Map, request.user)
-    times = Time.objects.all()
+    times = request.user.time_set.all()
     summary = 0.0
     for time in times:
         summary += time.distance
