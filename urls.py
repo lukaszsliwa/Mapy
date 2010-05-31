@@ -19,7 +19,6 @@ urlpatterns = patterns('',
     (r'^admin/', include(admin.site.urls)),
     (r'^mapy/', include('maps.urls')),
     (r'^czas/', include('stats.urls')),
-    url(r'^tag/(?P<tag>.+)/$', 'maps.views.index', name='tag'),
     (r'^profil/', include('profiles.urls')),
     (r'^punkt/', include('points.urls')),
 

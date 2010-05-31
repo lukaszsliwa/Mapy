@@ -11,11 +11,13 @@ from django.contrib.auth.decorators import login_required
 from django.http import HttpResponse
 from django.core.exceptions import ObjectDoesNotExist
 
-def index(request, tag=None):
-    if tag:
-        maps = Map.objects.filter(tags__contains=tag)
-    else:
-        maps = Map.objects.all()
+def index(request):
+    maps = Map.objects.all()
+    if request.GET:
+	if "tag" in request.GET:
+	   maps = maps.filter(tags__contains=request.GET['tag'])
+	if "m"   in request.GET:
+	   maps = maps.filter(city=request.GET['m'])
     return direct_to_template(request, 'maps/index.html', { 'maps': maps})
 
 def new(request):

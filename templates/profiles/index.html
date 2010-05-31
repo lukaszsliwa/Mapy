@@ -23,6 +23,7 @@
     {% endfor %}
 </table>
 
+{% if times %}
 <h2>Pokonane kilometry</h2>
 
 <img alt="Wykres pokonanych kilometrów" src="{% chart request.user.username "0" %}">
@@ -43,6 +44,7 @@
     </tr>
     {% endfor %}
 </table>
+{% endif %}
 
 <div class="clear"></div>
 

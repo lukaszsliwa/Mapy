@@ -20,20 +20,10 @@
           if (GBrowserIsCompatible()) {
 
             map = new GMap2(document.getElementById("map"));
-
-            var geocoder = new GClientGeocoder();
-            geocoder.getLocations(latlngs[0], function (locations) {
-
-                var north = locations.Placemark[0].ExtendedData.LatLonBox.north;
-                var south = locations.Placemark[0].ExtendedData.LatLonBox.south;
-                var east  = locations.Placemark[0].ExtendedData.LatLonBox.east;
-                var west  = locations.Placemark[0].ExtendedData.LatLonBox.west;
-
-                var bounds = new GLatLngBounds(new GLatLng(south, west),
-                                               new GLatLng(north, east));
-
-                map.setCenter(centerpoint, map.getBoundsZoomLevel(bounds)-1);
-            });
+	    var bounds = new GLatLngBounds();
+	    bounds.extend( new GLatLng({{map.southwest.latit}},{{map.southwest.longi}}));
+	    bounds.extend( new GLatLng({{map.northeast.latit}},{{map.northeast.longi}}));
+            map.setCenter(centerpoint, map.getBoundsZoomLevel(bounds));
 
             map.setUIToDefault();
             map.enableRotation();

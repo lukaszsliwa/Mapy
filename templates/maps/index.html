@@ -11,7 +11,7 @@
         <td>
             <a href="{% url map map.id map.slug %}">{{ map.name|title }} &raquo;</a>
             <div class="tags">
-                {% for tag in map.gettags %}<a href="{% url tag tag %}">#{{ tag }}</a> {% endfor %}
+                {% for tag in map.gettags %}<a href="{% url maps %}?tag={{ tag }}">#{{ tag }}</a> {% endfor %}
             </div>
         </td>
         <td><a href="{% url maps %}?m={{ map.city }}">{{ map.city }}</a></td>
