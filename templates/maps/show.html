@@ -63,7 +63,7 @@
 <div class="box">
     <div class="right">
         {% for tag in map.gettags %}
-        <a class="tag" href="{% url tag tag %}">#{{tag}}</a>
+	<a class="tag" href="{% url maps %}?tag={{ tag }}">#{{ tag }}</a> 
         {% endfor %}
     </div>
 </div>
