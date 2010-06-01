@@ -55,7 +55,26 @@ def show(request, map_id, slug):
     comment.map = map
     form = CommentForm(instance=comment)
     return direct_to_template(request, 'maps/show.html', { 'map': map, 'form': form,\
-							 'comments': comments, 'center' : map.getcenter() })
+						 'comments': comments, 'center' : map.getcenter() })
+
+def maps_in_bounds(request, SWLat, SWLng, NELat, NELng):
+    from django.db.models import Q
+    swInBound = Q(southwest__latit__gte=SWLat) & Q(southwest__latit__lte=NELat) & \
+		Q(southwest__longi__gte=SWLng) & Q(southwest__longi__lte=NELng)
+    neInBound = Q(northeast__latit__gte=SWLat) & Q(northeast__latit__lte=NELat) & \
+		Q(northeast__longi__gte=SWLng) & Q(northeast__longi__lte=NELng)
+    seInBound = Q(northeast__latit__gte=SWLat) & Q(northeast__latit__lte=NELat) & \
+		Q(southwest__longi__gte=SWLng) & Q(southwest__longi__lte=NELng)
+    nwInBound = Q(southwest__latit__gte=SWLat) & Q(southwest__latit__lte=NELat) & \
+		Q(northeast__longi__gte=SWLng) & Q(northeast__longi__lte=NELng)
+
+    mapy = Map.objects.filter(swInBound | neInBound | seInBound | nwInBound )
+    result = "{\"maps\" : [ "
+    for mapa in mapy:
+	result += "{ \"latlngs\":%s,\"id\":%s,\"slug\":\"%s\" }," % (mapa.jsonlatlngs(),mapa.id,mapa.slug)
+    result = result[:-1] + "]}"
+    return HttpResponse( result )
+
 
 @login_required
 def like(request, map_id, slug):

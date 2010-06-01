@@ -18,7 +18,7 @@ def new(request):
             point.save()
     return HttpResponseRedirect('/')
 
-def show(request, SWLat, SWLng, NELat, NELng):
+def points_in_bounds(request, SWLat, SWLng, NELat, NELng):
     points = Point.objects.filter(latit__gte=SWLat).filter(longi__gte=SWLng)
     points = points.filter(latit__lte=NELat).filter(longi__lte=NELng)
     result = "{\"points\" : [ "
