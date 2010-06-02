@@ -41,6 +41,16 @@ class Map(models.Model):
                 result.append(pair)
         return result
 
+    def jsonlatlngs(self):
+        '''
+        Zwraca latlngs w formacie json
+        '''
+	result = "["
+        for p in self.latlngs.split(';'):
+            if p:
+                result += '['+p+'],'
+        return result[:-1] + ']'
+
     def getcenter(self):
 	"""
         Zwraca środek mapy w oparciu o współrzędne krańcowe trasy.

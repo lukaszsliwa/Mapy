@@ -5,8 +5,10 @@
     var color = "#FF0000";
     var marker = null;
     var markset = false;
+    var mapsset = false;
     var markers = [];
     var listeners = [];
+    var maps = [];
     var mgr = null;
 
     function init() {
@@ -134,7 +136,8 @@ TextualZoomControl.prototype.initialize = function(map) {
   container.appendChild(zoomOutDiv);
   zoomOutDiv.appendChild(document.createTextNode("Trasy"));
   GEvent.addDomListener(zoomOutDiv, "click", function() {
-    map.zoomOut();
+	if(mapsset){ mapsset = false; destroyMaps(); }
+	else { mapsset = true; importMaps(); }
   });
 
   map.getContainer().appendChild(container);
@@ -157,6 +160,32 @@ TextualZoomControl.prototype.setButtonStyle_ = function(button) {
   button.style.width = "6em";
   button.style.cursor = "pointer";
 }
+
+ function importMaps() {
+    maps = [];
+    var bounds = map.getBounds();
+    var SW = bounds.getSouthWest();
+    var NE = bounds.getNorthEast();
+    $.getJSON("/mapy/"+SW.lat()+"/"+SW.lng()+"/"+NE.lat()+"/"+NE.lng()+"/",
+        function(data){
+          $.each(data.maps, function(i,item){
+	    var new_map = [];
+	    $.each(item.latlngs, function(i,mitem){
+		new_map.push(new GLatLng(mitem[0],mitem[1]));
+	    });
+	    var poly2 = new GPolyline(new_map, color);
+            map.addOverlay(poly2);
+	    maps.push( poly2 );
+          });
+        });
+  }
+
+  function destroyMaps() {
+	for ( i in maps ){
+		map.removeOverlay(maps[i]);
+	}
+  }
+
 
  function importPoints() {
     markers = [];
