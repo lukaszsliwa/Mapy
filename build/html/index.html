@@ -1,0 +1,813 @@
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Dokumentacja projektu portalu dla ludzi aktywnych &mdash; Portal dla ludzi aktywnych v1.0.0 documentation</title>
+    <link rel="stylesheet" href="_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '',
+        VERSION:     '1.0.0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <script type="text/javascript" src="_static/translations.js"></script>
+    <link rel="top" title="Portal dla ludzi aktywnych v1.0.0 documentation" href="#" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Nawigacja</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="Indeks ogólny"
+             accesskey="I">indeks</a></li>
+        <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >moduły</a> |</li>
+        <li><a href="#">Portal dla ludzi aktywnych v1.0.0 documentation</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="dokumentacja-projektu-portalu-dla-ludzi-aktywnych">
+<h1>Dokumentacja projektu portalu dla ludzi aktywnych<a class="headerlink" href="#dokumentacja-projektu-portalu-dla-ludzi-aktywnych" title="Stały odnośnik do tego nagłówka">¶</a></h1>
+<div class="section" id="wstep">
+<h2>Wstęp<a class="headerlink" href="#wstep" title="Stały odnośnik do tego nagłówka">¶</a></h2>
+<p>Portal dla ludzi aktywnych umożliwia umieszczenie trasy na mapie. Trasy są umieszczane i tworzone z wykorzystaniem <tt class="xref py py-mod docutils literal"><span class="pre">Google</span> <span class="pre">Maps</span> <span class="pre">API</span></tt>.
+Do generowania wykresów wykorzystywane jest <tt class="xref py py-mod docutils literal"><span class="pre">Google</span> <span class="pre">Chart</span> <span class="pre">API</span></tt>. Sam projekt został stworzony w języku <tt class="xref py py-mod docutils literal"><span class="pre">Python</span></tt> i <tt class="xref py py-mod docutils literal"><span class="pre">frameworku</span> <span class="pre">Django</span></tt>. Projekt korzysta z bazy danych <tt class="xref py py-mod docutils literal"><span class="pre">sqlite3</span></tt>.</p>
+<p>Niniejsza dokumentacja została stworzona przy pomocy narzędzia <tt class="xref py py-mod docutils literal"><span class="pre">Sphinx</span></tt>.</p>
+<p>Wszelkie zmiany w kodzie były umieszczane w zdalnym repozytorium Git w serwisie <a class="reference external" href="http://github.com/">github</a>.</p>
+</div>
+<div class="section" id="wymagania">
+<h2>Wymagania<a class="headerlink" href="#wymagania" title="Stały odnośnik do tego nagłówka">¶</a></h2>
+<ul class="simple">
+<li>system linuks</li>
+<li>python 2.6.5</li>
+<li>django 1.1.1</li>
+<li>SQLite 3.6.20</li>
+<li>przeglądarka z włączoną obsługą javascript oraz ciasteczek (ang. <cite>cookies</cite>)</li>
+<li>dostęp do internetu</li>
+</ul>
+</div>
+<div class="section" id="instalacja">
+<h2>Instalacja<a class="headerlink" href="#instalacja" title="Stały odnośnik do tego nagłówka">¶</a></h2>
+<p>Projekt można pobrać bezpośrednio z <a class="reference external" href="http://github.com/mrplum/Mapy/">repozytorium</a>:</p>
+<div class="highlight-python"><pre>$ git clone git@github.com:mrplum/Mapy.git mapy
+$ cd mapy
+$ python manage.py syncdb
+$ python manage.py runserver</pre>
+</div>
+<p>Polecenie <tt class="xref py py-mod docutils literal"><span class="pre">python</span> <span class="pre">manage.py</span> <span class="pre">syncdb</span></tt> tworzy potrzebne tabele.
+Polecenie <tt class="xref py py-mod docutils literal"><span class="pre">python</span> <span class="pre">manage.py</span> <span class="pre">runserver</span></tt> uruchamia wbudowany serwer django.</p>
+</div>
+<div class="section" id="modul-map-maps">
+<h2>Moduł map &#8211; maps<a class="headerlink" href="#modul-map-maps" title="Stały odnośnik do tego nagłówka">¶</a></h2>
+<dl class="docutils">
+<dt>Moduł <tt class="xref py py-mod docutils literal"><span class="pre">maps</span></tt> odpowiada za tworzenie oraz przeglądanie map. Przy tworzeniu map wykorzystywane jest API Google Maps napisane w <tt class="xref py py-mod docutils literal"><span class="pre">JavaScript</span></tt>. Na mapach możliwe są następujace operacje:</dt>
+<dd><ul class="first last simple">
+<li>tworzenie ścieżki</li>
+<li>tworzenie punktów</li>
+</ul>
+</dd>
+</dl>
+<p>Każda mapa którą utworzy użytkownik może zostać zapisana w bazie danych.</p>
+<div class="section" id="module-maps.models">
+<span id="model"></span><h3>Model<a class="headerlink" href="#module-maps.models" title="Stały odnośnik do tego nagłówka">¶</a></h3>
+<dl class="class">
+<dt id="maps.models.Map">
+<em class="property">class </em><tt class="descclassname">maps.models.</tt><tt class="descname">Map</tt><big>(</big><em>*args</em>, <em>**kwargs</em><big>)</big><a class="headerlink" href="#maps.models.Map" title="Stały odnośnik do tej definicji">¶</a></dt>
+<dd><p>Każda mapa posiada nazwę, przyjazny adres utworzony na podstawie nazwy,
+słowa kluczowe, miasto, ciąg punktów z których złożona jest ścieżka,
+długość trasy w kilometrach oraz współrzędne krańcowe mapy.</p>
+<p>Nazwa mapy jest ciągiem znaków nieprzekraczającym 256.
+Przyjazny adres (ang. <cite>slug</cite>) to ciąg znaków nieprzekraczający 50.
+Słowa kluczowe</p>
+<dl class="method">
+<dt id="maps.models.Map.getcenter">
+<tt class="descname">getcenter</tt><big>(</big><big>)</big><a class="headerlink" href="#maps.models.Map.getcenter" title="Stały odnośnik do tej definicji">¶</a></dt>
+<dd><p>Zwraca środek mapy w oparciu o współrzędne krańcowe trasy.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="maps.models.Map.getlatlngs">
+<tt class="descname">getlatlngs</tt><big>(</big><big>)</big><a class="headerlink" href="#maps.models.Map.getlatlngs" title="Stały odnośnik do tej definicji">¶</a></dt>
+<dd><p>Zwraca tablicę par (lat, lng). Atrybut <tt class="xref py py-mod docutils literal"><span class="pre">latlngs</span></tt> zawiera ciąg
+znaków odpowiadających kolejnym punktom na trasie.:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="mf">10.0</span><span class="p">,</span><span class="mf">20.3</span><span class="p">;</span><span class="mf">20.4</span><span class="p">,</span><span class="mf">50.4</span><span class="p">;</span>
+</pre></div>
+</div>
+<dl class="docutils">
+<dt>Powyższy ciąg zostanie zmieniony w tablicę par.</dt>
+<dd><div class="first last highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="nb">map</span><span class="o">.</span><span class="n">getlatlngs</span><span class="p">()</span>
+<span class="go">[(10.0, 20.3), (20.4, 50.4)]</span>
+</pre></div>
+</div>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="maps.models.Map.gettags">
+<tt class="descname">gettags</tt><big>(</big><big>)</big><a class="headerlink" href="#maps.models.Map.gettags" title="Stały odnośnik do tej definicji">¶</a></dt>
+<dd><p>Każde słowo kluczowe jest ciągiem znaków. Atrybut <tt class="xref py py-mod docutils literal"><span class="pre">tags</span></tt> zawiera
+słowa kluczowe oddzielone pojedynczym odstępem.</p>
+<dl class="docutils">
+<dt>Metoda zwraca tablicę słów kluczowych.</dt>
+<dd><div class="first last highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="nb">map</span><span class="o">.</span><span class="n">gettags</span><span class="p">()</span>
+<span class="go">[&#39;wroclaw&#39;, &#39;grunwaldzka&#39;, &#39;rondo-regana&#39;]</span>
+</pre></div>
+</div>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="maps.models.Map.save">
+<tt class="descname">save</tt><big>(</big><big>)</big><a class="headerlink" href="#maps.models.Map.save" title="Stały odnośnik do tej definicji">¶</a></dt>
+<dd><p>Zapisuje mapę do bazy danych tworząc przyjazną nazwę mapy (ang. slug)
+używaną przy tworzeniu adresów map. Zamienia słowa kluczowe na wersję
+bez polskich znaków, spacji oraz znaków interpunkcyjnych.</p>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="module-maps.forms">
+<span id="formularz"></span><h3>Formularz<a class="headerlink" href="#module-maps.forms" title="Stały odnośnik do tego nagłówka">¶</a></h3>
+<dl class="class">
+<dt id="maps.forms.NewMapForm">
+<em class="property">class </em><tt class="descclassname">maps.forms.</tt><tt class="descname">NewMapForm</tt><big>(</big><em>data=None</em>, <em>files=None</em>, <em>auto_id='id_%s'</em>, <em>prefix=None</em>, <em>initial=None</em>, <em>error_class=&lt;class 'django.forms.util.ErrorList'&gt;</em>, <em>label_suffix=':'</em>, <em>empty_permitted=False</em><big>)</big><a class="headerlink" href="#maps.forms.NewMapForm" title="Stały odnośnik do tej definicji">¶</a></dt>
+<dd><p>Klasa reprezentuje formularz umożliwiający dodawanie mapy do bazy danych.
+Atrybuty klasy:</p>
+<blockquote>
+<ul class="simple">
+<li><tt class="xref py py-mod docutils literal"><span class="pre">name</span></tt> &#8211; nazwa mapy</li>
+<li><tt class="xref py py-mod docutils literal"><span class="pre">tags</span></tt> &#8211; słowa kluczowe oddzielone przecinkiem</li>
+<li><tt class="xref py py-mod docutils literal"><span class="pre">city</span></tt> &#8211; miasto lub miasta</li>
+<li><tt class="xref py py-mod docutils literal"><span class="pre">latlngs</span></tt> &#8211; ciąg współrzędnych geograficznych oddzielonych średnikiem</li>
+<li><tt class="xref py py-mod docutils literal"><span class="pre">distance</span></tt> &#8211; długość trasy</li>
+<li><tt class="xref py py-mod docutils literal"><span class="pre">nelat</span></tt></li>
+<li><tt class="xref py py-mod docutils literal"><span class="pre">nelng</span></tt></li>
+<li><tt class="xref py py-mod docutils literal"><span class="pre">swlat</span></tt></li>
+<li><tt class="xref py py-mod docutils literal"><span class="pre">swlng</span></tt></li>
+</ul>
+</blockquote>
+<p>Wszystkie atrybuty są wymagane. Ukrytymi atrybutami są: <tt class="xref py py-mod docutils literal"><span class="pre">nelat</span></tt>,
+<tt class="xref py py-mod docutils literal"><span class="pre">nelng</span></tt>, <tt class="xref py py-mod docutils literal"><span class="pre">swlat</span></tt>, <tt class="xref py py-mod docutils literal"><span class="pre">swlng</span></tt>. Atrybut jest ukryty jeśli nie
+występuje w formularzu, do którego użytkownik podaje niezbędne dane</p>
+</dd></dl>
+
+</div>
+<div class="section" id="module-maps.views">
+<span id="widoki"></span><h3>Widoki<a class="headerlink" href="#module-maps.views" title="Stały odnośnik do tego nagłówka">¶</a></h3>
+<dl class="function">
+<dt id="maps.views.index">
+<tt class="descclassname">maps.views.</tt><tt class="descname">index</tt><big>(</big><em>request</em><big>)</big><a class="headerlink" href="#maps.views.index" title="Stały odnośnik do tej definicji">¶</a></dt>
+<dd><p>Zwraca listę wszystkich map dostępnych w serwisie. Jeśli ustawiony jest
+parametr <tt class="xref py py-mod docutils literal"><span class="pre">m</span></tt> to wtedy zwraca list map z miasta o wartości <tt class="xref py py-mod docutils literal"><span class="pre">m</span></tt>.
+Jeśli ustawiony jest parametr <tt class="xref py py-mod docutils literal"><span class="pre">tag</span></tt> to w liście pojawiają się mapy,
+które opisano słowem kluczowym <tt class="xref py py-mod docutils literal"><span class="pre">tag</span></tt>.:</p>
+<div class="highlight-python"><pre>/mapy/?m=Wrocław
+/mapy/?tag=sienkiewicza
+/mapy/?m=Wrocław&amp;tag=sienkiewicza</pre>
+</div>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="maps.views.like">
+<tt class="descclassname">maps.views.</tt><tt class="descname">like</tt><a class="headerlink" href="#maps.views.like" title="Stały odnośnik do tej definicji">¶</a></dt>
+<dd><p>Dodaje mapę do ulubionych zalogowanego użytkownika.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field"><th class="field-name">Parametry:</th><td class="field-body"><ul class="first simple">
+<li><strong>map_id</strong> &#8211; identyfikator mapy w bazie danych</li>
+<li><strong>slug</strong> &#8211; przyjazny adres mapy</li>
+</ul>
+</td>
+</tr>
+<tr class="field"><th class="field-name">Zwraca:</th><td class="field-body"><p class="first last">pusty obiekt HttpResponse</p>
+</td>
+</tr>
+</tbody>
+</table>
+<p>Funkcja jest wywoływana asynchronicznie przez metodę javascript.</p>
+<div class="admonition note">
+<p class="first admonition-title">Uwaga</p>
+<p class="last">Tylko zalogowani użytkownicy.</p>
+</div>
+</dd></dl>
+
+<dl class="function">
+<dt id="maps.views.new">
+<tt class="descclassname">maps.views.</tt><tt class="descname">new</tt><big>(</big><em>request</em><big>)</big><a class="headerlink" href="#maps.views.new" title="Stały odnośnik do tej definicji">¶</a></dt>
+<dd><p>Funkcja zwraca stronę z formularzem do dodania nowej mapy lub zapisuje mapę
+w zależności od typus żądania: GET (utwórz formularz) lub POST (zapisz formularz).</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="maps.views.show">
+<tt class="descclassname">maps.views.</tt><tt class="descname">show</tt><big>(</big><em>request</em>, <em>map_id</em>, <em>slug</em><big>)</big><a class="headerlink" href="#maps.views.show" title="Stały odnośnik do tej definicji">¶</a></dt>
+<dd><p>Metoda zwraca stronę mapy o wskazanym <tt class="xref py py-mod docutils literal"><span class="pre">map_id</span></tt>.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field"><th class="field-name">Parametry:</th><td class="field-body"><ul class="first simple">
+<li><strong>map_id</strong> &#8211; identyfikator mapy w bazie danych</li>
+<li><strong>slug</strong> &#8211; przyjazny adres mapy, ułatwia wyszukiwanie mapy w pasku przeglądarki</li>
+</ul>
+</td>
+</tr>
+<tr class="field"><th class="field-name">Zwraca:</th><td class="field-body"><p class="first last">obiekt mapy, formularz komentarza, komentarze</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="maps.views.unlike">
+<tt class="descclassname">maps.views.</tt><tt class="descname">unlike</tt><a class="headerlink" href="#maps.views.unlike" title="Stały odnośnik do tej definicji">¶</a></dt>
+<dd><p>Usuwa mapę z ulubionych zalogowanego użytkownika.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field"><th class="field-name">Parametry:</th><td class="field-body"><ul class="first simple">
+<li><strong>map_id</strong> &#8211; identyfikator mapy w bazie danych</li>
+<li><strong>slug</strong> &#8211; przyjazny adres mapy</li>
+</ul>
+</td>
+</tr>
+<tr class="field"><th class="field-name">Zwraca:</th><td class="field-body"><p class="first last">pusty obiekt HttpResponse</p>
+</td>
+</tr>
+</tbody>
+</table>
+<p>Funkcja jest wywoływana asynchronicznie przez metodę javascript.</p>
+<div class="admonition note">
+<p class="first admonition-title">Uwaga</p>
+<p class="last">Tylko zalogowani użytkownicy.</p>
+</div>
+</dd></dl>
+
+</div>
+</div>
+<div class="section" id="modul-komentarzy-do-map-comments">
+<h2>Moduł komentarzy do map &#8211; comments<a class="headerlink" href="#modul-komentarzy-do-map-comments" title="Stały odnośnik do tego nagłówka">¶</a></h2>
+<p>Komentarze umożliwiają wypowiadanie się użytkownikom pod mapami.</p>
+<div class="section" id="id1">
+<h3>Model<a class="headerlink" href="#id1" title="Stały odnośnik do tego nagłówka">¶</a></h3>
+<span class="target" id="module-comments.models"></span><dl class="class">
+<dt id="comments.models.Comment">
+<em class="property">class </em><tt class="descclassname">comments.models.</tt><tt class="descname">Comment</tt><big>(</big><em>*args</em>, <em>**kwargs</em><big>)</big><a class="headerlink" href="#comments.models.Comment" title="Stały odnośnik do tej definicji">¶</a></dt>
+<dd><p>Klasa reprezentuje komentarz. Z każdym komentarzem wiążemy atrybuty:</p>
+<blockquote>
+<ul class="simple">
+<li><tt class="xref py py-mod docutils literal"><span class="pre">user</span></tt> &#8211; wskazuje obiekt użytkownika</li>
+<li><tt class="xref py py-mod docutils literal"><span class="pre">map</span></tt> &#8211; wskazuje obiekt mapy, której dotyczy komentarz</li>
+<li><tt class="xref py py-mod docutils literal"><span class="pre">content</span></tt> &#8211; treść komentarza</li>
+<li><tt class="xref py py-mod docutils literal"><span class="pre">created_at</span></tt> &#8211; czas utworzenia komentarza (tworzona automatycznie)</li>
+</ul>
+</blockquote>
+<p>Wszystkie atrybuty są wymagane do utworzenia nowego komentarza.</p>
+</dd></dl>
+
+</div>
+<div class="section" id="module-comments.forms">
+<span id="formularze"></span><h3>Formularze<a class="headerlink" href="#module-comments.forms" title="Stały odnośnik do tego nagłówka">¶</a></h3>
+<dl class="class">
+<dt id="comments.forms.CommentForm">
+<em class="property">class </em><tt class="descclassname">comments.forms.</tt><tt class="descname">CommentForm</tt><big>(</big><em>data=None</em>, <em>files=None</em>, <em>auto_id='id_%s'</em>, <em>prefix=None</em>, <em>initial=None</em>, <em>error_class=&lt;class 'django.forms.util.ErrorList'&gt;</em>, <em>label_suffix=':'</em>, <em>empty_permitted=False</em>, <em>instance=None</em><big>)</big><a class="headerlink" href="#comments.forms.CommentForm" title="Stały odnośnik do tej definicji">¶</a></dt>
+<dd><p>Klasa reprezentuje formularz do komentowania.</p>
+</dd></dl>
+
+</div>
+<div class="section" id="id2">
+<h3>Widoki<a class="headerlink" href="#id2" title="Stały odnośnik do tego nagłówka">¶</a></h3>
+<span class="target" id="module-comments.views"></span><dl class="attribute">
+<dt id="comments.views.create">
+<tt class="descclassname">comments.views.</tt><tt class="descname">create</tt><a class="headerlink" href="#comments.views.create" title="Stały odnośnik do tej definicji">¶</a></dt>
+<dd><p>Tworzy nowy komentarz do mapy.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field"><th class="field-name">Parametry:</th><td class="field-body"><ul class="first simple">
+<li><strong>map_id</strong> &#8211; identyfikator mapy</li>
+</ul>
+</td>
+</tr>
+<tr class="field"><th class="field-name">Zwraca:</th><td class="field-body"><p class="first last">jeśli podano wymagane dane to tworzy komentarz i przekierowuje
+do mapy o wskazanym <tt class="xref py py-mod docutils literal"><span class="pre">map_id</span></tt>, w przeciwnym wypadku generuje
+jeszcze raz i odznacza błędne pola</p>
+</td>
+</tr>
+</tbody>
+</table>
+<div class="admonition note">
+<p class="first admonition-title">Uwaga</p>
+<p class="last">Tylko zalogowani użytkownicy.</p>
+</div>
+</dd></dl>
+
+</div>
+</div>
+<div class="section" id="modul-profilow-uzytkownika-profiles">
+<h2>Moduł profilów użytkownika &#8211; profiles<a class="headerlink" href="#modul-profilow-uzytkownika-profiles" title="Stały odnośnik do tego nagłówka">¶</a></h2>
+<p>Profile użytkownika zawierają podstawowe informacje na temat aktywności danego użytkownika.
+Aktywność rozumiemy tutaj jako liczbę przebytych kilometrów, częstość przemierzania ulubionych
+tras.</p>
+<div class="section" id="id3">
+<h3>Formularze<a class="headerlink" href="#id3" title="Stały odnośnik do tego nagłówka">¶</a></h3>
+<span class="target" id="module-profiles.forms"></span><dl class="class">
+<dt id="profiles.forms.EditProfileForm">
+<em class="property">class </em><tt class="descclassname">profiles.forms.</tt><tt class="descname">EditProfileForm</tt><big>(</big><em>data=None</em>, <em>files=None</em>, <em>auto_id='id_%s'</em>, <em>prefix=None</em>, <em>initial=None</em>, <em>error_class=&lt;class 'django.forms.util.ErrorList'&gt;</em>, <em>label_suffix=':'</em>, <em>empty_permitted=False</em><big>)</big><a class="headerlink" href="#profiles.forms.EditProfileForm" title="Stały odnośnik do tej definicji">¶</a></dt>
+<dd><p>Reprezentuje formularz edycji danych. Edycja jest uzupełniona dodatkowo
+o <tt class="xref py py-mod docutils literal"><span class="pre">first_name</span></tt> oraz <tt class="xref py py-mod docutils literal"><span class="pre">last_name</span></tt>, które są nieobowiązkowe.
+Jeśli pole <tt class="xref py py-mod docutils literal"><span class="pre">password</span></tt> nie zostało uzupełnione to hasło nie zostanie
+zmienione.</p>
+</dd></dl>
+
+<dl class="class">
+<dt id="profiles.forms.LoginForm">
+<em class="property">class </em><tt class="descclassname">profiles.forms.</tt><tt class="descname">LoginForm</tt><big>(</big><em>data=None</em>, <em>files=None</em>, <em>auto_id='id_%s'</em>, <em>prefix=None</em>, <em>initial=None</em>, <em>error_class=&lt;class 'django.forms.util.ErrorList'&gt;</em>, <em>label_suffix=':'</em>, <em>empty_permitted=False</em><big>)</big><a class="headerlink" href="#profiles.forms.LoginForm" title="Stały odnośnik do tej definicji">¶</a></dt>
+<dd><p>Reprezentuje formularz do logowania. Atrybuty <tt class="xref py py-mod docutils literal"><span class="pre">username</span></tt>
+oraz <tt class="xref py py-mod docutils literal"><span class="pre">password</span></tt> są obowiązkowe.</p>
+</dd></dl>
+
+<dl class="class">
+<dt id="profiles.forms.ProfileForm">
+<em class="property">class </em><tt class="descclassname">profiles.forms.</tt><tt class="descname">ProfileForm</tt><big>(</big><em>data=None</em>, <em>files=None</em>, <em>auto_id='id_%s'</em>, <em>prefix=None</em>, <em>initial=None</em>, <em>error_class=&lt;class 'django.forms.util.ErrorList'&gt;</em>, <em>label_suffix=':'</em>, <em>empty_permitted=False</em><big>)</big><a class="headerlink" href="#profiles.forms.ProfileForm" title="Stały odnośnik do tej definicji">¶</a></dt>
+<dd><p>Reprezentuje formularz tworzenia konta. Wszystkie atrybuty są obowiązkowe
+przy uzupełnianiu formularza:</p>
+<blockquote>
+<ul class="simple">
+<li><tt class="xref py py-mod docutils literal"><span class="pre">username</span></tt> &#8211; nazwa użytkownika</li>
+<li><tt class="xref py py-mod docutils literal"><span class="pre">password</span></tt> &#8211; hasło</li>
+<li><tt class="xref py py-mod docutils literal"><span class="pre">email</span></tt> &#8211; adres e-mail</li>
+</ul>
+</blockquote>
+</dd></dl>
+
+</div>
+<div class="section" id="id4">
+<h3>Widoki<a class="headerlink" href="#id4" title="Stały odnośnik do tego nagłówka">¶</a></h3>
+<span class="target" id="module-profiles.views"></span><dl class="attribute">
+<dt id="profiles.views.edit">
+<tt class="descclassname">profiles.views.</tt><tt class="descname">edit</tt><a class="headerlink" href="#profiles.views.edit" title="Stały odnośnik do tej definicji">¶</a></dt>
+<dd><dl class="docutils">
+<dt>Obsługuje dwa typy żądań:</dt>
+<dd><ul class="first last simple">
+<li>GET &#8211; tworzy formularz do edytowania swoich danych</li>
+<li>POST &#8211; sprawdza poprawność danych i zapisuje je w bazie</li>
+</ul>
+</dd>
+</dl>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field"><th class="field-name">Zwraca:</th><td class="field-body">jeśli podane dane są poprawne do generuje stronę do edycji danych,
+jeśli dane są niepoprawne to wskazuje błędne pola</td>
+</tr>
+</tbody>
+</table>
+<div class="admonition note">
+<p class="first admonition-title">Uwaga</p>
+<p class="last">Tylko zalogowani użytkownicy.</p>
+</div>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="profiles.views.index">
+<tt class="descclassname">profiles.views.</tt><tt class="descname">index</tt><a class="headerlink" href="#profiles.views.index" title="Stały odnośnik do tej definicji">¶</a></dt>
+<dd><p>Pokazuje stronę główną użytkownika. Na stronie znajdują się informacje
+o ulubionych mapach (list map) oraz ostatnio pokonane dystansy.</p>
+<div class="admonition note">
+<p class="first admonition-title">Uwaga</p>
+<p class="last">Tylko zalogowani użytkownicy.</p>
+</div>
+</dd></dl>
+
+<dl class="function">
+<dt id="profiles.views.login">
+<tt class="descclassname">profiles.views.</tt><tt class="descname">login</tt><big>(</big><em>request</em><big>)</big><a class="headerlink" href="#profiles.views.login" title="Stały odnośnik do tej definicji">¶</a></dt>
+<dd><p>Tworzy stronę do logowania (GET) lub loguje użytkownika jeśli jego konto
+istnieje i jest aktywne (POST).</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="profiles.views.logout">
+<tt class="descclassname">profiles.views.</tt><tt class="descname">logout</tt><a class="headerlink" href="#profiles.views.logout" title="Stały odnośnik do tej definicji">¶</a></dt>
+<dd><p>Wylogowuje użytkownika i przekierowuje na stronę logowania.</p>
+<div class="admonition note">
+<p class="first admonition-title">Uwaga</p>
+<p class="last">Tylko zalogowani użytkownicy.</p>
+</div>
+</dd></dl>
+
+<dl class="function">
+<dt id="profiles.views.new">
+<tt class="descclassname">profiles.views.</tt><tt class="descname">new</tt><big>(</big><em>request</em><big>)</big><a class="headerlink" href="#profiles.views.new" title="Stały odnośnik do tej definicji">¶</a></dt>
+<dd><p>Tworzy formularz nowego użytkownika (metoda GET) lub tworzy nowe konto (metoda POST).</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field"><th class="field-name">Zwraca:</th><td class="field-body">jeśli formularz jest poprawnie uzupełniony to tworzy użytkownika
+i przekierowuje go do strony z logowaniem; jeśli formularz zawiera błędy to
+generuje go jeszcze raz wskazując błędne pola</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="profiles.views.show">
+<tt class="descclassname">profiles.views.</tt><tt class="descname">show</tt><big>(</big><em>request</em>, <em>username</em><big>)</big><a class="headerlink" href="#profiles.views.show" title="Stały odnośnik do tej definicji">¶</a></dt>
+<dd><p>Pokazuje profil użytkownika i dane dotyczące pokonanych przez niego kilometrów.</p>
+</dd></dl>
+
+</div>
+</div>
+<div class="section" id="modul-punktow-na-mapie-points">
+<h2>Moduł punktów na mapie &#8211; points<a class="headerlink" href="#modul-punktow-na-mapie-points" title="Stały odnośnik do tego nagłówka">¶</a></h2>
+</div>
+<div class="section" id="modul-statystyk-i-wykresow-stats">
+<h2>Moduł statystyk i wykresów &#8211; stats<a class="headerlink" href="#modul-statystyk-i-wykresow-stats" title="Stały odnośnik do tego nagłówka">¶</a></h2>
+<p>Moduł obsługuje przetwarzanie wyników, pokonanych kilometrów oraz generowanie
+wykresów na podstawie zebranych danych.</p>
+<div class="section" id="id5">
+<h3>Model<a class="headerlink" href="#id5" title="Stały odnośnik do tego nagłówka">¶</a></h3>
+<span class="target" id="module-stats.models"></span><dl class="class">
+<dt id="stats.models.Time">
+<em class="property">class </em><tt class="descclassname">stats.models.</tt><tt class="descname">Time</tt><big>(</big><em>*args</em>, <em>**kwargs</em><big>)</big><a class="headerlink" href="#stats.models.Time" title="Stały odnośnik do tej definicji">¶</a></dt>
+<dd><p>Klasa reprezentuje rekord z wynikiem czasowym osoby, która
+przebyła pewną trasę. Atrybuty:</p>
+<blockquote>
+<ul class="simple">
+<li><tt class="xref py py-mod docutils literal"><span class="pre">map</span></tt> &#8211; wskazuje obiekt mapy</li>
+<li><tt class="xref py py-mod docutils literal"><span class="pre">user</span></tt> &#8211; wskazuje obiekt użytkownika</li>
+<li><tt class="xref py py-mod docutils literal"><span class="pre">rounds</span></tt> &#8211; liczba rund</li>
+<li><tt class="xref py py-mod docutils literal"><span class="pre">seconds</span></tt> &#8211; liczb sekund</li>
+<li><tt class="xref py py-mod docutils literal"><span class="pre">distance</span></tt> &#8211; przebyty dystans</li>
+<li><tt class="xref py py-mod docutils literal"><span class="pre">part_of_the_day</span></tt> &#8211; część dnia o której przebyto trasę</li>
+<li><tt class="xref py py-mod docutils literal"><span class="pre">weather</span></tt> &#8211; pogoda</li>
+<li><tt class="xref py py-mod docutils literal"><span class="pre">note</span></tt> &#8211; notatka</li>
+<li><tt class="xref py py-mod docutils literal"><span class="pre">created_at</span></tt> &#8211; data utworzenia wpisu</li>
+</ul>
+</blockquote>
+<dl class="method">
+<dt id="stats.models.Time.save">
+<tt class="descname">save</tt><big>(</big><big>)</big><a class="headerlink" href="#stats.models.Time.save" title="Stały odnośnik do tej definicji">¶</a></dt>
+<dd><p>Oblicza dystans przebytej trasy i zapisuje rekord do bazy.</p>
+<div class="admonition note">
+<p class="first admonition-title">Uwaga</p>
+<p class="last">Jeśli rounds=10, a map.distance=10.5 km to przebyto 105.0 km, więc
+distance=105.0</p>
+</div>
+</dd></dl>
+
+<dl class="staticmethod">
+<dt id="stats.models.Time.to_sec">
+<em class="property">static </em><tt class="descname">to_sec</tt><big>(</big><em>template</em><big>)</big><a class="headerlink" href="#stats.models.Time.to_sec" title="Stały odnośnik do tej definicji">¶</a></dt>
+<dd><p>Zamienia szablon postaci gg:mm:ss lub mm:ss na sekundy</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">Time</span><span class="o">.</span><span class="n">to_sec</span><span class="p">(</span><span class="s">&#39;10:23:44&#39;</span><span class="p">)</span>
+<span class="go">37424</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">Time</span><span class="o">.</span><span class="n">to_sec</span><span class="p">(</span><span class="s">&#39;10:10&#39;</span><span class="p">)</span>
+<span class="go">70</span>
+</pre></div>
+</div>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="id6">
+<h3>Formularz<a class="headerlink" href="#id6" title="Stały odnośnik do tego nagłówka">¶</a></h3>
+<span class="target" id="module-stats.forms"></span><dl class="class">
+<dt id="stats.forms.TimeForm">
+<em class="property">class </em><tt class="descclassname">stats.forms.</tt><tt class="descname">TimeForm</tt><big>(</big><em>data=None</em>, <em>files=None</em>, <em>auto_id='id_%s'</em>, <em>prefix=None</em>, <em>initial=None</em>, <em>error_class=&lt;class 'django.forms.util.ErrorList'&gt;</em>, <em>label_suffix=':'</em>, <em>empty_permitted=False</em>, <em>instance=None</em><big>)</big><a class="headerlink" href="#stats.forms.TimeForm" title="Stały odnośnik do tej definicji">¶</a></dt>
+<dd><p>Klasa reprezentuje formularz dodawania wyników.</p>
+<dl class="method">
+<dt id="stats.forms.TimeForm.clean_seconds">
+<tt class="descname">clean_seconds</tt><big>(</big><big>)</big><a class="headerlink" href="#stats.forms.TimeForm.clean_seconds" title="Stały odnośnik do tej definicji">¶</a></dt>
+<dd><p>Konwertuje czas przebycia trasy z postaci gg:mm:ss na liczbę sekund.</p>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="id7">
+<h3>Widoki<a class="headerlink" href="#id7" title="Stały odnośnik do tego nagłówka">¶</a></h3>
+<span class="target" id="module-stats.views"></span><dl class="attribute">
+<dt id="stats.views.add">
+<tt class="descclassname">stats.views.</tt><tt class="descname">add</tt><a class="headerlink" href="#stats.views.add" title="Stały odnośnik do tej definicji">¶</a></dt>
+<dd><p>Dodaje nowy wynik na wskazanej trasie, jeśli formularz został poprawnie uzupełniony.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field"><th class="field-name">Zwraca:</th><td class="field-body">formularz, mapa</td>
+</tr>
+</tbody>
+</table>
+<div class="admonition note">
+<p class="first admonition-title">Uwaga</p>
+<p class="last">Tylko zalogowani użytkownicy.</p>
+</div>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="stats.views.new">
+<tt class="descclassname">stats.views.</tt><tt class="descname">new</tt><a class="headerlink" href="#stats.views.new" title="Stały odnośnik do tej definicji">¶</a></dt>
+<dd><p>Zwraca stronę z formularzem umożliwiającym dodanie nowego wyniku.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field"><th class="field-name">Zwraca:</th><td class="field-body">formularz, mapa</td>
+</tr>
+</tbody>
+</table>
+<div class="admonition note">
+<p class="first admonition-title">Uwaga</p>
+<p class="last">Tylko zalogowani użytkownicy.</p>
+</div>
+</dd></dl>
+
+</div>
+</div>
+<div class="section" id="modul-ulubionych-tresci-favorites">
+<h2>Moduł ulubionych treści &#8211; favorites<a class="headerlink" href="#modul-ulubionych-tresci-favorites" title="Stały odnośnik do tego nagłówka">¶</a></h2>
+<p>Moduł umożliwia odznaczanie istniejących w bazie danych rekordów jako ulubionych
+dla określonych użytkowników. Moduł jest na tyle uniwersalny, że pozwala odznaczyć
+dowolny typ obiektu: komentarz, mapę, wypowiedź, zdjęcie etc. Wykorzystywany jest
+tutaj mechanizm tabel generycznych.</p>
+<div class="section" id="module-favorites.managers">
+<span id="zarzadcy"></span><h3>Zarządcy<a class="headerlink" href="#module-favorites.managers" title="Stały odnośnik do tego nagłówka">¶</a></h3>
+<dl class="class">
+<dt id="favorites.managers.FavoritesManagerMixin">
+<em class="property">class </em><tt class="descclassname">favorites.managers.</tt><tt class="descname">FavoritesManagerMixin</tt><a class="headerlink" href="#favorites.managers.FavoritesManagerMixin" title="Stały odnośnik do tej definicji">¶</a></dt>
+<dd><p>Dodaje kolumnę <cite>favorite__favorite</cite> do <tt class="xref py py-mod docutils literal"><span class="pre">extra</span></tt></p>
+<dl class="method">
+<dt id="favorites.managers.FavoritesManagerMixin.with_favorite_for">
+<tt class="descname">with_favorite_for</tt><big>(</big><em>user</em>, <em>all=True</em><big>)</big><a class="headerlink" href="#favorites.managers.FavoritesManagerMixin.with_favorite_for" title="Stały odnośnik do tej definicji">¶</a></dt>
+<dd><p>Dodaje kolumnę <tt class="xref py py-mod docutils literal"><span class="pre">favorite__favorite</span></tt> do zwracanego obiektu</p>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="module-favorites.models">
+<span id="modele"></span><h3>Modele<a class="headerlink" href="#module-favorites.models" title="Stały odnośnik do tego nagłówka">¶</a></h3>
+<dl class="class">
+<dt id="favorites.models.Favorite">
+<em class="property">class </em><tt class="descclassname">favorites.models.</tt><tt class="descname">Favorite</tt><big>(</big><em>*args</em>, <em>**kwargs</em><big>)</big><a class="headerlink" href="#favorites.models.Favorite" title="Stały odnośnik do tej definicji">¶</a></dt>
+<dd><dl class="docutils">
+<dt>Reprezentuje model łączący ulubiony obiekt użytkownika z tym użytkownikiem.</dt>
+<dd><ul class="first last simple">
+<li><tt class="xref py py-mod docutils literal"><span class="pre">user</span></tt> &#8211; wskazuje na użytkownika</li>
+<li><tt class="xref py py-mod docutils literal"><span class="pre">content_type</span></tt> &#8211; typ obiektu</li>
+<li><tt class="xref py py-mod docutils literal"><span class="pre">object_id</span></tt> &#8211; identyfikator obiektu</li>
+<li><tt class="xref py py-mod docutils literal"><span class="pre">content_object</span></tt> &#8211; wskazuje na obiekt, który lubi użytkownik</li>
+</ul>
+</dd>
+</dl>
+<dl class="attribute">
+<dt id="favorites.models.Favorite.content_object">
+<tt class="descname">content_object</tt><a class="headerlink" href="#favorites.models.Favorite.content_object" title="Stały odnośnik do tej definicji">¶</a></dt>
+<dd><p>Provides a generic relation to any object through content-type/object-id
+fields.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="favorites.models.FavoriteManager">
+<em class="property">class </em><tt class="descclassname">favorites.models.</tt><tt class="descname">FavoriteManager</tt><a class="headerlink" href="#favorites.models.FavoriteManager" title="Stały odnośnik do tej definicji">¶</a></dt>
+<dd><p>Klasa zarządzająca dla <tt class="xref py py-mod docutils literal"><span class="pre">Favorite</span></tt></p>
+<dl class="classmethod">
+<dt id="favorites.models.FavoriteManager.create_favorite">
+<em class="property">classmethod </em><tt class="descname">create_favorite</tt><big>(</big><em>content_object</em>, <em>user</em><big>)</big><a class="headerlink" href="#favorites.models.FavoriteManager.create_favorite" title="Stały odnośnik do tej definicji">¶</a></dt>
+<dd><p>Tworzy ulubiony obiekt dla użytkownika przez dołączenie go do tabeli.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field"><th class="field-name">Parametry:</th><td class="field-body"><ul class="first simple">
+<li><strong>content_object</strong> &#8211; typ zawartości obiektu</li>
+<li><strong>user</strong> &#8211; użytkownik</li>
+</ul>
+</td>
+</tr>
+<tr class="field"><th class="field-name">Zwraca:</th><td class="field-body"><p class="first last">utworzony obiekt</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="favorites.models.FavoriteManager.favorite_for_user">
+<tt class="descname">favorite_for_user</tt><big>(</big><em>obj</em>, <em>user</em><big>)</big><a class="headerlink" href="#favorites.models.FavoriteManager.favorite_for_user" title="Stały odnośnik do tej definicji">¶</a></dt>
+<dd><p>Zwraca ulubiony obiekt dla danego użytkownika (jeśli istnieje)</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field"><th class="field-name">Parametry:</th><td class="field-body"><ul class="first simple">
+<li><strong>obj</strong> &#8211; obiekt</li>
+<li><strong>user</strong> &#8211; użytkownik</li>
+</ul>
+</td>
+</tr>
+<tr class="field"><th class="field-name">Zwraca:</th><td class="field-body"><p class="first">jeśli obiekt jest skojarzony z użytkownikiem to go zwraca, w.p.p zwraca wyjątek</p>
+</td>
+</tr>
+<tr class="field"><th class="field-name">Raises :</th><td class="field-body"><p class="first last">ObjectDoesNotExist</p>
+</td>
+</tr>
+</tbody>
+</table>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">user</span> <span class="o">=</span> <span class="n">User</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">username</span><span class="o">=</span><span class="s">&#39;lukasz&#39;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">map</span> <span class="o">=</span> <span class="n">Map</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">pk</span><span class="o">=</span><span class="n">map_id</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">try</span><span class="p">:</span>
+<span class="gp">&gt;&gt;&gt; </span>   <span class="n">Favorite</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">favorite_for_user</span><span class="p">(</span><span class="nb">map</span><span class="p">,</span> <span class="n">user</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">except</span> <span class="n">ObjectDoesNotExist</span><span class="p">:</span>
+<span class="gp">&gt;&gt;&gt; </span>   <span class="n">Favorite</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">create_favorite</span><span class="p">(</span><span class="nb">map</span><span class="p">,</span> <span class="n">user</span><span class="p">)</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="method">
+<dt id="favorites.models.FavoriteManager.favorites_for_model">
+<tt class="descname">favorites_for_model</tt><big>(</big><em>model</em>, <em>user=None</em><big>)</big><a class="headerlink" href="#favorites.models.FavoriteManager.favorites_for_model" title="Stały odnośnik do tej definicji">¶</a></dt>
+<dd><p>Zwraca ulubione obiekty określonego modelu.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field"><th class="field-name">Parametry:</th><td class="field-body"><ul class="first simple">
+<li><strong>model</strong> &#8211; klasa modelu</li>
+<li><strong>user</strong> &#8211; obiekt użytkownika (domyślnie None)</li>
+</ul>
+</td>
+</tr>
+<tr class="field"><th class="field-name">Zwraca:</th><td class="field-body"><p class="first last">ulubione obiekty danego modelu (i użytkownika)</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="favorites.models.FavoriteManager.favorites_for_object">
+<tt class="descname">favorites_for_object</tt><big>(</big><em>obj</em>, <em>user=None</em><big>)</big><a class="headerlink" href="#favorites.models.FavoriteManager.favorites_for_object" title="Stały odnośnik do tej definicji">¶</a></dt>
+<dd><p>Zwraca ulubione dla określonego obiektu.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field"><th class="field-name">Parametry:</th><td class="field-body"><ul class="first simple">
+<li><strong>obj</strong> &#8211; obiekt</li>
+<li><strong>user</strong> &#8211; obiekt użytkownika (domyślnie None)</li>
+</ul>
+</td>
+</tr>
+<tr class="field"><th class="field-name">Zwraca:</th><td class="field-body"><p class="first last">ulubione obiekty</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="favorites.models.FavoriteManager.favorites_for_user">
+<tt class="descname">favorites_for_user</tt><big>(</big><em>user</em><big>)</big><a class="headerlink" href="#favorites.models.FavoriteManager.favorites_for_user" title="Stały odnośnik do tej definicji">¶</a></dt>
+<dd><p>Zwraca ulubione obiekty dla wskazanego użytkownika</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field"><th class="field-name">Parametry:</th><td class="field-body"><ul class="first simple">
+<li><strong>user</strong> &#8211; obiekt użytkownika</li>
+</ul>
+</td>
+</tr>
+<tr class="field"><th class="field-name">Zwraca:</th><td class="field-body"><p class="first last">ulubione obiekty danego użytkownika</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="#">Spis treści</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">Dokumentacja projektu portalu dla ludzi aktywnych</a><ul>
+<li><a class="reference internal" href="#wstep">Wstęp</a></li>
+<li><a class="reference internal" href="#wymagania">Wymagania</a></li>
+<li><a class="reference internal" href="#instalacja">Instalacja</a></li>
+<li><a class="reference internal" href="#modul-map-maps">Moduł map &#8211; maps</a><ul>
+<li><a class="reference internal" href="#module-maps.models">Model</a></li>
+<li><a class="reference internal" href="#module-maps.forms">Formularz</a></li>
+<li><a class="reference internal" href="#module-maps.views">Widoki</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#modul-komentarzy-do-map-comments">Moduł komentarzy do map &#8211; comments</a><ul>
+<li><a class="reference internal" href="#id1">Model</a></li>
+<li><a class="reference internal" href="#module-comments.forms">Formularze</a></li>
+<li><a class="reference internal" href="#id2">Widoki</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#modul-profilow-uzytkownika-profiles">Moduł profilów użytkownika &#8211; profiles</a><ul>
+<li><a class="reference internal" href="#id3">Formularze</a></li>
+<li><a class="reference internal" href="#id4">Widoki</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#modul-punktow-na-mapie-points">Moduł punktów na mapie &#8211; points</a></li>
+<li><a class="reference internal" href="#modul-statystyk-i-wykresow-stats">Moduł statystyk i wykresów &#8211; stats</a><ul>
+<li><a class="reference internal" href="#id5">Model</a></li>
+<li><a class="reference internal" href="#id6">Formularz</a></li>
+<li><a class="reference internal" href="#id7">Widoki</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#modul-ulubionych-tresci-favorites">Moduł ulubionych treści &#8211; favorites</a><ul>
+<li><a class="reference internal" href="#module-favorites.managers">Zarządcy</a></li>
+<li><a class="reference internal" href="#module-favorites.models">Modele</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+  <h3>Ta strona</h3>
+  <ul class="this-page-menu">
+    <li><a href="_sources/index.txt"
+           rel="nofollow">Pokaż źródło</a></li>
+  </ul>
+<div id="searchbox" style="display: none">
+  <h3>Szybkie wyszukiwanie</h3>
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" size="18" />
+      <input type="submit" value="Szukaj" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Wprowadź szukany termin lub nazwę modułu, klasy lub funkcji.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Nawigacja</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="Indeks ogólny"
+             >indeks</a></li>
+        <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >moduły</a> |</li>
+        <li><a href="#">Portal dla ludzi aktywnych v1.0.0 documentation</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+        &copy; Copyright 2010, Łukasz Śliwa, Daniel Borzęcki.
+      Utworzone przy pomocy <a href="http://sphinx.pocoo.org/">Sphinx</a>'a 1.0b2.
+    </div>
+  </body>
+</html>
