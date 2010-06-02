@@ -1,1 +1,17 @@
 Mapy
+====
+
+Instalacja
+----------
+
+ $ git clone git@github.com:mrplum/Mapy.git mapy
+ $ cd mapy
+ $ python manage.py syncdb
+ $ python manage.py runserver
+
+Dokumentacja
+------------
+
+ $ cd mapy/source/html
+ $ ls
+
