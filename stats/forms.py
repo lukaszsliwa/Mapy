@@ -3,8 +3,14 @@
 from django import forms
 from models import Time
 
-class TimeForm(forms.ModelForm):
+"""
+.. moduleauthor:: Łukasz Śliwa
+"""
 
+class TimeForm(forms.ModelForm):
+    """
+    Klasa reprezentuje formularz dodawania wyników.
+    """
     seconds = forms.CharField(required=True, label='Czas')
     weather = forms.IntegerField(required=False,
         widget=forms.Select(choices=Time.WEATHER),
@@ -16,6 +22,9 @@ class TimeForm(forms.ModelForm):
         widget=forms.Textarea, label='Notatka')
 
     def clean_seconds(self):
+        """
+        Konwertuje czas przebycia trasy z postaci gg:mm:ss na liczbę sekund.
+        """
         seconds = self.cleaned_data['seconds']
         return Time.to_sec(seconds)
 

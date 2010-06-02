@@ -3,17 +3,24 @@ from django.db import models
 from maps.models import Map
 from django.contrib.auth.models import User
 
+"""
+.. moduleauthor:: Łukasz Śliwa
+"""
+
 class Time(models.Model):
-    '''
+    """
     Klasa reprezentuje rekord z wynikiem czasowym osoby, która
     przebyła pewną trasę. Atrybuty:
-        * map               - mapa
-        * user              - użytkownik
-        * time              - czas w sekundach
-        * part_of_the_day   - część dnia
-        * weather           - pogoda
-        * note              - notatka
-    '''
+        * :mod:`map` -- wskazuje obiekt mapy
+        * :mod:`user` -- wskazuje obiekt użytkownika
+        * :mod:`rounds` -- liczba rund
+        * :mod:`seconds` -- liczb sekund
+        * :mod:`distance` -- przebyty dystans
+        * :mod:`part_of_the_day` -- część dnia o której przebyto trasę
+        * :mod:`weather` -- pogoda
+        * :mod:`note` -- notatka
+        * :mod:`created_at` -- data utworzenia wpisu
+    """
     PART_OF_THE_DAY = (
         (1, 'Rano'),
         (2, 'Popołudniu'),
@@ -36,17 +43,29 @@ class Time(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
 
     def save(self):
-        '''
-        Oblicza dystans przebytej trasy i zapisuje rekord do bazy
-        '''
+        """
+        Oblicza dystans przebytej trasy i zapisuje rekord do bazy.
+
+        .. note::
+
+           Jeśli rounds=10, a map.distance=10.5 km to przebyto 105.0 km, więc
+           distance=105.0
+
+        """
         self.distance = self.rounds * self.map.distance
         super(Time, self).save()
 
     @staticmethod
     def to_sec(template):
-        '''
+        """
         Zamienia szablon postaci gg:mm:ss lub mm:ss na sekundy
-        '''
+
+            >>> Time.to_sec('10:23:44')
+            37424
+            >>> Time.to_sec('10:10')
+            70
+
+        """
         items, hours = map(int, template.split(':')), 0
         try:
             hours, minutes, seconds = items

@@ -1,3 +1,4 @@
+# encoding: utf-8
 from django.db import models, connection
 from django.contrib.contenttypes.models import ContentType
 
@@ -6,11 +7,12 @@ from models import Favorite
 qn = connection.ops.quote_name
 
 class FavoritesManagerMixin(object):
-    """ A Mixin to add a `favorite__favorite` column via extra 
+    """
+    Dodaje kolumnę `favorite__favorite` do :mod:`extra`
     """
     def with_favorite_for(self, user, all=True):
-        """ Adds a column favorite__favorite to the returned object, which
-        indicates whether or not this item is a favorite for a user
+        """
+        Dodaje kolumnę :mod:`favorite__favorite` do zwracanego obiektu
         """
         Favorite = models.get_model('favorites', 'Favorite')
         content_type = ContentType.objects.get_for_model(self.model)

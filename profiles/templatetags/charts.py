@@ -7,6 +7,10 @@ register = template.Library()
 
 GOOGLE_API = 'http://chart.apis.google.com'
 
+"""
+.. moduleauthor:: Łukasz Śliwa
+"""
+
 @register.simple_tag
 def chart(username, type):
     try:

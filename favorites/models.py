@@ -1,3 +1,4 @@
+# encoding: utf-8
 from django.db import models, connection
 
 from django.contrib.auth.models import User
@@ -6,15 +7,27 @@ from django.contrib.contenttypes.models import ContentType
 from django.contrib.contenttypes import generic
 
 class FavoriteManager(models.Manager):
-    """ A Manager for Favorites
+    """
+    Klasa zarządzająca dla :mod:`Favorite`
     """
     def favorites_for_user(self, user):
-        """ Returns Favorites for a specific user
+        """
+        Zwraca ulubione obiekty dla wskazanego użytkownika
+
+        :param user: obiekt użytkownika
+        :returns: ulubione obiekty danego użytkownika
+
         """
         return self.get_query_set().filter(user=user)
     
     def favorites_for_model(self, model, user=None):
-        """ Returns Favorites for a specific model
+        """
+        Zwraca ulubione obiekty określonego modelu.
+
+        :param model: klasa modelu
+        :param user: obiekt użytkownika (domyślnie None)
+        :returns: ulubione obiekty danego modelu (i użytkownika)
+
         """
         content_type = ContentType.objects.get_for_model(model)
         qs = self.get_query_set().filter(content_type=content_type)
@@ -23,7 +36,12 @@ class FavoriteManager(models.Manager):
         return qs
 
     def favorites_for_object(self, obj, user=None):
-        """ Returns Favorites for a specific object
+        """
+        Zwraca ulubione dla określonego obiektu.
+
+        :param obj: obiekt
+        :param user: obiekt użytkownika (domyślnie None)
+        :returns: ulubione obiekty
         """
         content_type = ContentType.objects.get_for_model(type(obj))
         qs = self.get_query_set().filter(content_type=content_type, 
@@ -34,7 +52,22 @@ class FavoriteManager(models.Manager):
         return qs
 
     def favorite_for_user(self, obj, user):
-        """Returns the favorite, if exists for obj by user
+        """
+        Zwraca ulubiony obiekt dla danego użytkownika (jeśli istnieje)
+
+        :param obj: obiekt
+        :param user: użytkownik
+        :return: jeśli obiekt jest skojarzony z użytkownikiem to go zwraca, w.p.p zwraca wyjątek
+        :raises: ObjectDoesNotExist
+
+        >>> user = User.objects.get(username='lukasz')
+        >>> map = Map.objects.get(pk=map_id)
+        >>> try:
+        >>>    Favorite.objects.favorite_for_user(map, user)
+        >>> except ObjectDoesNotExist:
+        >>>    Favorite.objects.create_favorite(map, user)
+            
+
         """
         content_type = ContentType.objects.get_for_model(type(obj))
         return self.get_query_set().get(content_type=content_type,
@@ -42,6 +75,13 @@ class FavoriteManager(models.Manager):
     
     @classmethod
     def create_favorite(cls, content_object, user):
+        """
+        Tworzy ulubiony obiekt dla użytkownika przez dołączenie go do tabeli.
+
+        :param content_object: typ zawartości obiektu
+        :param user: użytkownik
+        :returns: utworzony obiekt
+        """
         content_type = ContentType.objects.get_for_model(type(content_object))
         favorite = Favorite(
             user=user,
@@ -53,6 +93,14 @@ class FavoriteManager(models.Manager):
         return favorite
 
 class Favorite(models.Model):
+    """
+    Reprezentuje model łączący ulubiony obiekt użytkownika z tym użytkownikiem.
+        * :mod:`user` -- wskazuje na użytkownika
+        * :mod:`content_type` -- typ obiektu
+        * :mod:`object_id` -- identyfikator obiektu
+        * :mod:`content_object` -- wskazuje na obiekt, który lubi użytkownik
+        
+    """
     user = models.ForeignKey(User)
     content_type = models.ForeignKey(ContentType)
     object_id = models.PositiveIntegerField()

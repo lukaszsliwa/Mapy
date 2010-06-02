@@ -5,14 +5,34 @@ from django.contrib.auth.decorators import login_required
 from forms import TimeForm
 from maps.models import Map
 
+"""
+.. moduleauthor:: Łukasz Śliwa
+"""
+
 @login_required
 def new(request, map_id):
+    """
+    Zwraca stronę z formularzem umożliwiającym dodanie nowego wyniku.
+
+    :returns: formularz, mapa
+
+    .. include:: ../source/login_required.rst
+
+    """
     form = TimeForm()
     map = Map.objects.get(pk=map_id)
     return direct_to_template(request, 'stats/new.html', { 'form': form, 'map': map })
 
 @login_required
 def add(request, map_id):
+    """
+    Dodaje nowy wynik na wskazanej trasie, jeśli formularz został poprawnie uzupełniony.
+
+    :returns: formularz, mapa
+
+    .. include:: ../source/login_required.rst
+
+    """
     map = Map.objects.get(pk=map_id)
     form = TimeForm(request.POST)
     if form.is_valid():
