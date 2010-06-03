@@ -8,6 +8,7 @@
 
 body {
     margin: 0;
+    font-family: Verdana,Helvetica,sans-serif;
 }
 
 img {
@@ -17,6 +18,12 @@ img {
 
 ul {
    list-style-type: none;
+}
+
+h1, h2, h3, h4 {
+    font-family: Arial, Verdana;
+    border-bottom: 1px dotted #eaeaea;
+    padding: 5px;
 }
 
 ul.errorlist {
@@ -55,7 +62,7 @@ a, a:link {
 
 #page #top {
     font-size: 50px;
-    font-family: "Georgia"
+    font-family: Verdana;
 }
 
 #top a.home, #top a.home:link {
@@ -99,7 +106,6 @@ a, a:link {
 #nav a, #nav a:link {
     font-size: 20px;
     font-weight: bold;
-    font-family: "Georgia";
     text-decoration: none;
     color: #4b7ab3;
 }
@@ -312,4 +318,25 @@ a.link-icon {
 
 .hide {
     display: none;
+}
+
+.archives {
+    text-align: right;
+    font-family: Verdana;
+    font-size: 10px;
+}
+
+.archives a {
+    color: #87cf32;
+}
+
+.archives a.current-month {
+    font-weight: bold;
+}
+
+span.counter {
+    color: #999999;
+    font-family: "Tahoma";
+    font-weight: bold;
+    font-size: 24px;
 }

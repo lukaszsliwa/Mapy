@@ -8,10 +8,27 @@ from django.contrib.auth.models import User
 from django.contrib.auth.decorators import login_required
 from maps.models import Map
 from favorites.models import Favorite
+from stats.models import Time
+from datetime import datetime
+from django.db.models import Sum
 
 """
 .. moduleauthor:: Łukasz Śliwa
 """
+
+def _archive(back=3):
+    current_month = datetime.now().month
+    current_year = datetime.now().year
+    result = []
+    for month in range(current_month-back, current_month+1):
+        if month <= 0:
+            month += 12
+            year = current_year - 1
+        else:
+            year = current_year
+        result.append((month, year))
+    result.reverse()
+    return result
 
 @login_required
 def index(request):
@@ -22,18 +39,29 @@ def index(request):
     .. include:: ../source/login_required.rst
 
     """
+    m = int(request.GET.get('m', datetime.now().month))
+    y = int(request.GET.get('y', datetime.now().year))
+
     favorites = Favorite.objects.favorites_for_model(Map, request.user)
-    times = request.user.time_set.all()
-    summary = 0.0
-    for time in times:
-        summary += time.distance
+    times = request.user.time_set.filter(created_at__year=y, created_at__month=m)
+    archives = _archive()
+    summary = times.aggregate(sum=Sum('distance'))['sum'] or 0.0
+    summary_all = request.user.time_set.aggregate(sum=Sum('distance'))['sum'] or 0.0
     return direct_to_template(request, 'profiles/index.html', locals())
 
 def show(request, username):
     """
     Pokazuje profil użytkownika i dane dotyczące pokonanych przez niego kilometrów.
     """
-    user = User.objects.get(username=username)
+    user2 = User.objects.get(username=username)
+    m = int(request.GET.get('m', datetime.now().month))
+    y = int(request.GET.get('y', datetime.now().year))
+
+    favorites = Favorite.objects.favorites_for_model(Map, user2)
+    times = user2.time_set.filter(created_at__year=y, created_at__month=m)
+    archives = _archive()
+    summary = times.aggregate(sum=Sum('distance'))['sum'] or 0.0
+    summary_all = user2.time_set.aggregate(sum=Sum('distance'))['sum'] or 0.0
     return direct_to_template(request, 'profiles/show.html', locals())
 
 def new(request):

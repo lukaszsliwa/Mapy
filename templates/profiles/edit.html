@@ -1,12 +1,21 @@
 {% extends 'default.html' %}
-
-{% block title-tag %}zaloguj się{% endblock %}
+{% load avatar_tags %}
+{% block title-tag %}Edytuj konto{% endblock %}
 
 {% block content %}
-<h2>Edytuj</h2>
+<h2>&raquo; Edytuj</h2>
 
 <form action="{% url edit-profile %}" method="post">
     <table class="center">
+        <tr>
+            <td>{% avatar request.user %}</td>
+            <td>
+                <a href="{% url avatar_change %}">Zmień</a>
+                &middot;
+                <a href="{% url avatar_delete %}">usuń</a>
+                zdjęcie
+            </td>
+        </tr>
         {{ form.as_table }}
         <tr>
             <td></td>

@@ -21,6 +21,7 @@ urlpatterns = patterns('',
     (r'^czas/', include('stats.urls')),
     (r'^profil/', include('profiles.urls')),
     (r'^punkt/', include('points.urls')),
+    (r'^zdjecie/', include('avatar.urls')),
 
     (r'^komentarze/', include('comments.urls')),
 

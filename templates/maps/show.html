@@ -1,4 +1,5 @@
 {% extends 'default.html' %}
+{% load avatar_tags %}
 
 {% block title-tag %}{{ map.name|title }}{% endblock %}
 
@@ -77,7 +78,10 @@
 {% for comment in comments %}
     <li class="comment" id="comment-{{ comment.id }}">
         <a name="komentarz-{{ comment.id }}"></a>
-        <div class="top">Dodane przez <a href="{% url profile comment.user %}">{{ comment.user }}</a>:</div>
+        <div class="top">
+            {% avatar user 32 %}
+            <a href="{% url profile comment.user %}">{{ comment.user }}</a>
+        </div>
         <div class="content">
             {{ comment.content }}
             
