@@ -3,6 +3,7 @@ from django.views.generic.simple import direct_to_template
 from django.shortcuts import redirect
 from django.contrib.auth.decorators import login_required
 from forms import TimeForm
+from models import Time
 from maps.models import Map
 
 """
@@ -42,3 +43,18 @@ def add(request, map_id):
         time.save()
         return redirect('my-profile')
     return direct_to_template(request, 'stats/new.html', { 'form': form, 'map': map})
+
+@login_required
+def remove(request, time_id):
+    """
+    Usuwa wynik.
+
+    :returns: przekierowuje na stronę użytkownika
+
+    .. include:: ../source/login_required.rst
+
+    """
+    time = Time.objects.get(pk=time_id)
+    if time.user == request.user:
+        time.delete()
+    return redirect('my-profile')

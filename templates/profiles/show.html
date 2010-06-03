@@ -1,5 +1,56 @@
 {% extends 'default.html' %}
-
+{% block title-tag %}Profil {{ user2 }}{% endblock %}
 {% block content %}
+{% load avatar_tags charts %}
+
+<h2>{% avatar user 32 %} {{ user2 }} {% if user2.first_name %}({{ user2.first_name }} {{user2.last_name}}){% endif %}</h2>
+
+<p style="text-align: right">
+    <span class="counter">{{ summary_all }} km</span>
+</p>
+
+<h2>&raquo; Pokonane kilometry {{ m }}-{{ y }} ({{ summary }} km)</h2>
+
+<div class="archives">
+{% for monthyear in archives %}
+<a {% ifequal m monthyear.0 %}class='current-month'{% endifequal %} href="?m={{ monthyear.0 }}&amp;y={{ monthyear.1 }}">{{ monthyear.0 }}-{{ monthyear.1 }}</a>
+{% if not forloop.last %}&middot;{% endif %}
+{% endfor %}
+</div>
+
+{% if times %}
+<img alt="Wykres pokonanych kilometrów" src="{% chart user2.username "0" %}">
+
+<table class="list">
+    <tr>
+        <th>Mapa</th>
+        <th style="width: 100px;">Kiedy?</th>
+        <th style="width: 80px;">Wynik</th>
+        <th style="width: 90px;">Dystans</th>
+        <th style="width: 30px;"></th>
+    </tr>
+    {% for time in times %}
+    <tr>
+        <td><a href="{% url map time.map.id time.map.slug %}">{{ time.map }}</a></td>
+        <td>
+            {{ time.created_at|date:"d/m/Y" }}
+        </td>
+        <td>{{ time }}</td>
+        <td>{{ time.distance }} km</td>
+    </tr>
+    {% endfor %}
+</table>
+{% endif %}
+
+<h2>&raquo; Lubiane trasy</h2>
+
+<ul>
+{% for favorite in favorites %}
+<li>
+    <a href="{% url map favorite.content_object.id favorite.content_object.slug %}">{{ favorite.content_object.name|title }}</a>
+</li>
+{% endfor %}
+</ul>
+
 
 {% endblock %}

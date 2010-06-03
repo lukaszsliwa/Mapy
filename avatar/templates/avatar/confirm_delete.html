@@ -1,0 +1,20 @@
+{% extends 'default.html' %}
+{% load avatar_tags %}
+{% block title-tag %}Usuń zdjęcie{% endblock %}
+
+{% block content %}
+<h2>&raquo; Usuń zdjęcie</h2>
+{% if not avatars %}
+    {% url avatar_change as avatar_change_url %}
+    <p>Nie masz żadnych zdjęć. <a href="{{ avatar_change_url }}">Dodaj</a> zdjęcie.</p>
+{% else %}
+    <p>Wybierz zdjęcie, które chcesz usunąć</p>
+    <form method="POST" action="{% url avatar_delete %}">
+        <ul>
+            {{ delete_avatar_form.as_ul }}
+        </ul>
+        <input type="submit" value="Usuń zaznaczone" />
+    </form>
+{% endif %}
+<a href="{% url edit-profile %}">&laquo; wróć do edycji konta</a>
+{% endblock %}
