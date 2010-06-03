@@ -42,9 +42,9 @@ class Map(models.Model):
         return result
 
     def jsonlatlngs(self):
-        '''
-        Zwraca latlngs w formacie json
-        '''
+        """
+        Zwraca napis reprezentujący atrybut :mod:`latlngs` w formacie JSON.
+        """
 	result = "["
         for p in self.latlngs.split(';'):
             if p:

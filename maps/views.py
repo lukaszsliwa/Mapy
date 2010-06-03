@@ -14,6 +14,7 @@ from django.core.exceptions import ObjectDoesNotExist
 
 """
 .. moduleauthor:: Łukasz Śliwa
+.. moduleauthor:: Daniel Borzęcki
 """
 
 def index(request):
@@ -36,10 +37,13 @@ def index(request):
 	   maps = maps.filter(city=request.GET['m'])
     return direct_to_template(request, 'maps/index.html', { 'maps': maps})
 
+@login_required
 def new(request):
     """
     Funkcja zwraca stronę z formularzem do dodania nowej mapy lub zapisuje mapę
     w zależności od typus żądania: GET (utwórz formularz) lub POST (zapisz formularz).
+
+    .. include:: ../source/login_required.rst
     """
     formpoint = NewPointForm()
     if request.method == 'POST':

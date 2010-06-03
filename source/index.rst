@@ -112,6 +112,26 @@ Widoki
 Moduł punktów na mapie -- points
 ================================
 
+Moduł implementujący wyświetlanie punktów na mapie.
+
+Model
+-----
+
+.. automodule:: points.models
+   :members:
+
+Formularz
+---------
+
+.. automodule:: points.forms
+   :members:
+
+Widoki
+------
+
+.. automodule:: points.views
+   :members:
+
 Moduł statystyk i wykresów -- stats
 ===================================
 

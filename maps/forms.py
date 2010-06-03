@@ -3,6 +3,7 @@ from django import forms
 
 """
 .. moduleauthor:: Łukasz Śliwa
+.. moduleauthor:: Daniel Borzęcki
 """
 
 class NewMapForm(forms.Form):
@@ -20,7 +21,7 @@ class NewMapForm(forms.Form):
         * :mod:`swlng`
 
     Wszystkie atrybuty są wymagane. Ukrytymi atrybutami są: :mod:`nelat`,
-    :mod:`nelng`, :mod:`swlat`, :mod:`swlng`. Atrybut jest ukryty jeśli nie
+    :mod:`nelng`, :mod:`swlat`, :mod:`swlng`, :mod:`latlngs`. Atrybut jest ukryty jeśli nie
     występuje w formularzu, do którego użytkownik podaje niezbędne dane
     """
     name = forms.CharField(required=True, max_length=256,
