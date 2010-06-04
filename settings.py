@@ -65,6 +65,7 @@ MIDDLEWARE_CLASSES = (
 )
 
 ROOT_URLCONF = 'urls'
+DEFAULT_CHARSET = 'utf-8'
 
 TEMPLATE_DIRS = (
     'templates',

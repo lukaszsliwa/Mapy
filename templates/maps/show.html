@@ -50,7 +50,7 @@
 <h2>{{ map|title }}</h2>
 <div class="box">
     <div class="left">
-        <a class="comments-icon icon" href="#komentarze" title="komentarze"></a>
+        <a class="comments-icon icon" href="#comments" title="komentarze"></a>
         {% if request.user.is_authenticated %}
         <a class="star-icon icon" href="{% url like-map map.id map.slug %}" onclick="$.post($(this).attr('href')); $(this).hide(); return false" title="lubię to!"></a>
         {% endif %}

@@ -9,6 +9,7 @@
     var markers = [];
     var listeners = [];
     var maps = [];
+    var mapslisteners = [];
     var mgr = null;
 
     function init() {
@@ -18,8 +19,6 @@
         map.setCenter(new GLatLng(52.32191088594773, 19.072265625), 6);
         map.setUIToDefault();
         map.enableRotation();
-//	GEvent.addListener(map, "moveend", function () {
-//		importPoints();	});
 	mgr = new MarkerManager(map);
 
         poly = new GPolyline([], color);
@@ -163,6 +162,7 @@ TextualZoomControl.prototype.setButtonStyle_ = function(button) {
 
  function importMaps() {
     maps = [];
+    mapslisteners = [];
     var bounds = map.getBounds();
     var SW = bounds.getSouthWest();
     var NE = bounds.getNorthEast();
@@ -173,9 +173,13 @@ TextualZoomControl.prototype.setButtonStyle_ = function(button) {
 	    $.each(item.latlngs, function(i,mitem){
 		new_map.push(new GLatLng(mitem[0],mitem[1]));
 	    });
-	    var poly2 = new GPolyline(new_map, color);
+	    var poly2 = new GPolyline(new_map, color, 2, 0.7);
+	    var evlis = GEvent.addListener(poly2, "click", function() {
+	    	window.location = 'mapy/' + item.id + '/' + item.slug+'/';
+  	      });
             map.addOverlay(poly2);
 	    maps.push( poly2 );
+	    mapslisteners.push( evlis );
           });
         });
   }
@@ -184,8 +188,10 @@ TextualZoomControl.prototype.setButtonStyle_ = function(button) {
 	for ( i in maps ){
 		map.removeOverlay(maps[i]);
 	}
+	for ( i in mapslisteners ){
+		GEvent.removeListener(mapslisteners[i]);
+	}
   }
-
 
  function importPoints() {
     markers = [];
