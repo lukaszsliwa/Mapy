@@ -258,6 +258,13 @@ a.icon:hover {
     border: 1px solid #eaeaea;
 }
 
+a.facebook-icon {
+    background: url('http://wiki.developers.facebook.com/images/9/96/Icon.png') no-repeat center center;
+}
+a.buzz-icon {
+    background: url('http://siteboat.com/wp-content/uploads/2010/01/Google_buzz_icon.gif') no-repeat center center;
+}
+
 a.comments-icon {
     background: url('/static/images/icons/comments.png') no-repeat center center;
 }
