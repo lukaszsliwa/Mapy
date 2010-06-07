@@ -38,12 +38,12 @@ def avatar(user, size=80):
             url = avatar_url(user, size)
         except User.DoesNotExist:
             url = get_default_avatar_url()
-            alt = _("Domyślne zdjęcie")
+            alt = _(u"Domyślne zdjęcie")
     else:
         alt = unicode(user)
         url = avatar_url(user, size)
-    return """<img src="%s" alt="%s" width="%s" height="%s" />""" % (url, alt,
-        size, size)
+    return u"<img src='%s' alt='%s' width='%s' height='%s' />" % (url, alt, size, size)
+
 register.simple_tag(avatar)
 
 def primary_avatar(user, size=80):

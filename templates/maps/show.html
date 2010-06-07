@@ -6,7 +6,6 @@
 {% block body-tag %}<body onload="init()" onunload="GUnload()">{% endblock %}
 
 {% block head %}
-    <script src="http://static.ak.fbcdn.net/connect.php/js/FB.Share" type="text/javascript"></script>
     <script type="text/javascript">
 
         var latlngs = [
@@ -95,7 +94,7 @@
     <li class="comment" id="comment-{{ comment.id }}">
         <a name="komentarz-{{ comment.id }}"></a>
         <div class="top">
-            {% avatar user 32 %}
+            {% avatar comment.user 32 %}
             <a href="{% url profile comment.user %}">{{ comment.user }}</a>
         </div>
         <div class="content">
