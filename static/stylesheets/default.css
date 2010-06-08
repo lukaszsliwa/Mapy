@@ -264,6 +264,15 @@ a.facebook-icon {
 a.buzz-icon {
     background: url('http://siteboat.com/wp-content/uploads/2010/01/Google_buzz_icon.gif') no-repeat center center;
 }
+a.blip-icon {
+    background: url('/static/images/blip.gif') no-repeat center center;
+}
+a.flaker-icon {
+    background: url('/static/images/flaker.gif') no-repeat center center;
+}
+a.sledzik-icon {
+    background: url('/static/images/sledzik.png') no-repeat center center;
+}
 
 a.comments-icon {
     background: url('/static/images/icons/comments.png') no-repeat center center;

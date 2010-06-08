@@ -40,18 +40,30 @@
           }
         }
 
+        function share(url) {
+            window.open(url, 'sharer', 'toolbar=0, status=0, width=626, height=436');
+            return false;
+        }
+
 	function fbs_click() { 
-		u=location.href;
-		t=document.title;
-		window.open('http://www.facebook.com/sharer.php?u='+encodeURIComponent(u)+'&t={{map|title}}',' sharer', 'toolbar=0, status=0, width=626, height=436');
-		return false;
+            return share('http://www.facebook.com/sharer.php?u=' + encodeURIComponent(location.href) + '&t={{map|title}}');
 	} 
 
         function buzz_click() { 
-		u=location.href;
-		window.open('http://www.google.com/reader/link?title={{map|title}}&url='+encodeURIComponent(u),' sharer', 'toolbar=0, status=0, width=626, height=436');
-		return false;
-	} 
+            return share('http://www.google.com/reader/link?title={{map|title}}&url=' + encodeURIComponent(location.href));
+	}
+
+        function blip_click() {
+            return share('http://blip.pl/dashboard?body={{map|title}} ' + encodeURIComponent(location.href));
+        }
+
+        function flaker_click() {
+            return share('http://flaker.pl/add2flaker.php?url=' + encodeURIComponent(location.href) + '&title=' + encodeURIComponent('{{map|title}}'));
+        }
+
+        function sledzik_click() {
+            return share('http://nasza-klasa.pl/sledzik?shout={{map|title}} ' + encodeURIComponent(location.href));
+        }
 
     </script>
 {% endblock %}
@@ -67,7 +79,9 @@
         {% if request.user.is_authenticated %}
         <a class="star-icon icon" href="{% url like-map map.id map.slug %}" onclick="$.post($(this).attr('href')); $(this).hide(); return false" title="lubię to!"></a>
         {% endif %}
-        <a class="email-icon icon" href="" title="wyślij link do mapy"></a>
+        <a class="blip-icon icon" type="none" onclick="return blip_click()" target="_blank"></a>
+        <a class="flaker-icon icon" type="none" onclick="return flaker_click()" target="_blank"></a>
+        <a class="sledzik-icon icon" type="none" onclick="return sledzik_click()" target="_blank"></a>
         <a class="facebook-icon icon" type="none" onclick="return fbs_click()" target="_blank"></a> 
         <a class="buzz-icon icon" type="none" onclick="return buzz_click()" target="_blank"></a> 
     </div>
