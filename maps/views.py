@@ -13,8 +13,7 @@ from django.http import HttpResponse
 from django.core.exceptions import ObjectDoesNotExist
 
 """
-.. moduleauthor:: Łukasz Śliwa
-.. moduleauthor:: Daniel Borzęcki
+.. moduleauthor:: Łukasz Śliwa, Daniel Borzęcki
 """
 
 def index(request):
