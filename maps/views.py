@@ -13,7 +13,8 @@ from django.http import HttpResponse
 from django.core.exceptions import ObjectDoesNotExist
 
 """
-.. moduleauthor:: Łukasz Śliwa, Daniel Borzęcki
+.. moduleauthor:: Łukasz Śliwa
+.. moduleauthor:: Daniel Borzęcki
 """
 
 def index(request):
@@ -78,10 +79,11 @@ def show(request, map_id, slug):
     """
     map = Map.objects.get(pk=map_id)
     comments = map.comment_set.order_by('-created_at')
+    times = map.time_set.order_by('-created_at')[:10]
     comment = Comment()
     comment.map = map
     form = CommentForm(instance=comment)
-    return direct_to_template(request, 'maps/show.html', { 'map': map, 'form': form,\
+    return direct_to_template(request, 'maps/show.html', { 'map': map, 'form': form, 'times': times,\
 						 'comments': comments, 'center' : map.getcenter() })
 
 def maps_in_bounds(request, SWLat, SWLng, NELat, NELng):

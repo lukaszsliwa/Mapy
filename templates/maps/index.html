@@ -1,4 +1,5 @@
 {% extends 'default.html' %}
+{% load pagination_tags %}
 {% block title %}trasy{% endblock %}
 {% block content %}
 <table class="list">
@@ -6,6 +7,7 @@
         <td>Nazwa trasy</td>
         <td>Miasto</td>
     </tr>
+    {% autopaginate maps 15 %}
     {% for map in maps %}
     <tr>
         <td>
@@ -19,6 +21,7 @@
     {% empty %}
         Brak wyników
     {% endfor %}
+    {% paginate %}
 </table>
 
 {% endblock %}

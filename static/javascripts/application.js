@@ -121,22 +121,40 @@ TextualZoomControl.prototype.initialize = function(map) {
   var container = document.createElement("div");
 
   var zoomInDiv = document.createElement("div");
+  zoomInDiv.setAttribute("id","points_button");
   this.setButtonStyle_(zoomInDiv);
   container.appendChild(zoomInDiv);
   zoomInDiv.appendChild(document.createTextNode("Punkty"));
   GEvent.addDomListener(zoomInDiv, "click", function() {
-	if(markset){ markset = false; destroyPoints(); }
-	else { markset = true; importPoints(); }
+	if(markset){ 
+		markset = false;
+		destroyPoints();
+		document.getElementById("points_button").style.backgroundColor = "white";
+	} else { 
+		markset = true; 
+		importPoints(); 
+		document.getElementById("points_button").style.backgroundColor = "yellow";
+	}
   });
 
 
   var zoomOutDiv = document.createElement("div");
+  zoomOutDiv.setAttribute("id","traces_button");
   this.setButtonStyle_(zoomOutDiv);
   container.appendChild(zoomOutDiv);
   zoomOutDiv.appendChild(document.createTextNode("Trasy"));
   GEvent.addDomListener(zoomOutDiv, "click", function() {
-	if(mapsset){ mapsset = false; destroyMaps(); }
-	else { mapsset = true; importMaps(); }
+	if(mapsset){ 
+		mapsset = false;
+		destroyMaps();
+		document.getElementById("traces_button").style.backgroundColor = "white";
+	} else {
+		if(map.getZoom() > 11) {
+			mapsset = true;
+			importMaps();
+			document.getElementById("traces_button").style.backgroundColor = "yellow";
+		} 
+	}
   });
 
   map.getContainer().appendChild(container);
@@ -147,7 +165,6 @@ TextualZoomControl.prototype.getDefaultPosition = function() {
   return new GControlPosition(G_ANCHOR_TOP_RIGHT, new GSize(7, 7));
 }
 
-// Sets the proper CSS for the given button element.
 TextualZoomControl.prototype.setButtonStyle_ = function(button) {
   button.style.backgroundColor = "white";
   button.style.font = "small Arial";
@@ -209,7 +226,8 @@ TextualZoomControl.prototype.setButtonStyle_ = function(button) {
 	    markers.push( point );
 	    listeners.push(evlis);
           });
-     	mgr.addMarkers(markers,5);
+     	mgr.addMarkers(markers.slice(0,markers.length/2),6);
+     	mgr.addMarkers(markers,11);
         mgr.refresh();
         });
   }
