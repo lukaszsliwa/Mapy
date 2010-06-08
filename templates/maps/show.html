@@ -39,7 +39,20 @@
 
           }
         }
-        
+
+	function fbs_click() { 
+		u=location.href;
+		t=document.title;
+		window.open('http://www.facebook.com/sharer.php?u='+encodeURIComponent(u)+'&t={{map|title}}',' sharer', 'toolbar=0, status=0, width=626, height=436');
+		return false;
+	} 
+
+        function buzz_click() { 
+		u=location.href;
+		window.open('http://www.google.com/reader/link?title={{map|title}}&url='+encodeURIComponent(u),' sharer', 'toolbar=0, status=0, width=626, height=436');
+		return false;
+	} 
+
     </script>
 {% endblock %}
 
@@ -50,11 +63,13 @@
 <h2>{{ map|title }}</h2>
 <div class="box">
     <div class="left">
-        <a class="comments-icon icon" href="#komentarze" title="komentarze"></a>
+        <a class="comments-icon icon" href="#comments" title="komentarze"></a>
         {% if request.user.is_authenticated %}
         <a class="star-icon icon" href="{% url like-map map.id map.slug %}" onclick="$.post($(this).attr('href')); $(this).hide(); return false" title="lubię to!"></a>
         {% endif %}
         <a class="email-icon icon" href="" title="wyślij link do mapy"></a>
+        <a class="facebook-icon icon" type="none" onclick="return fbs_click()" target="_blank"></a> 
+        <a class="buzz-icon icon" type="none" onclick="return buzz_click()" target="_blank"></a> 
     </div>
     <div id="length" class="length right">0 km</div>
     
@@ -79,7 +94,7 @@
     <li class="comment" id="comment-{{ comment.id }}">
         <a name="komentarz-{{ comment.id }}"></a>
         <div class="top">
-            {% avatar user 32 %}
+            {% avatar comment.user 32 %}
             <a href="{% url profile comment.user %}">{{ comment.user }}</a>
         </div>
         <div class="content">

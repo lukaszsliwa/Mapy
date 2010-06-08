@@ -23,7 +23,7 @@ class Point(LatLng):
     Każdy użytkownik może umieścić na mapie opisywalny punkt. Dziedziczy po klasie LatLng.
     Opis punktu jest ciągiem znaków nie dłuższym niż 120. Atrybuty:
         * :mod:`user` -- wskazuje obiekt użytkownika
-        * :mod:`desc` -- treść komentarza
+        * :mod:`desc` -- opis punktu
     """
     user = models.ForeignKey(User)
     desc = models.CharField(max_length=120)
