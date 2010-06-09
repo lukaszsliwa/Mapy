@@ -23,7 +23,7 @@
 
 <table class="list">
     <tr>
-        <th>Mapa</th>
+        <th>Notatki</th>
         <th style="width: 100px;">Kiedy?</th>
         <th style="width: 80px;">Wynik</th>
         <th style="width: 90px;">Dystans</th>
@@ -31,7 +31,12 @@
     </tr>
     {% for time in times %}
     <tr>
-        <td><a href="{% url map time.map.id time.map.slug %}">{{ time.map }}</a></td>
+        <td>
+            <a href="{% url map time.map.id time.map.slug %}">{{ time.map }}</a>
+            {% if time.note %}
+            <p>{{time.note}}</p>
+            {% endif %}
+        </td>
         <td>
             {{ time.created_at|date:"d/m/Y" }}
         </td>

@@ -31,7 +31,7 @@ def chart(username, type):
                 min_distance = distance if distance < min_distance else min_distance
             chd = ','.join([str(distance) for day,distance in chd.items()])
             chxl2 = ''
-            for y in range(min_distance, max_distance, int((max_distance-min_distance)/10) or 1):
+            for y in range(int(min_distance), int(max_distance), int((max_distance-min_distance)/10) or 1):
                 chxl2 += '|' + str(y)
             return '%s/chart?chdl=km&chxt=x,y&cht=bvg&chxt=x,y&chxl=0:%s|1:%s&chs=750x200&chbh=10&chd=t:%s' \
                 % (GOOGLE_API, chxl1, chxl2, chd)

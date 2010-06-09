@@ -19,18 +19,6 @@
         var color = "#FF0000";
 	var state = 'none';
 
-	function showhide(layer_ref) {
-	  if (state == 'block') {
-		state = 'none';
-	  } else {
-		state = 'block';
-	  }
-	  if (document.getElementById &&!document.all) {
-   		hza = document.getElementById(layer_ref);
-   		hza.style.display = state;
-	  }
-	}
-
         function init() {
           if (GBrowserIsCompatible()) {
 
@@ -113,15 +101,17 @@
 </div>
 <div class="clear"></div>
 
-<a href="{% url new-time map.id %}">Dodaj swój wynik</a> &nbsp; &nbsp; <a onclick="showhide('times');">Pokaż/ukryj ostatnie wyniki</a>
+<a href="{% url new-time map.id %}">Dodaj swój wynik</a> &nbsp; &nbsp; <a onclick="$('#times').toggle(); return false;" href="#">Pokaż/ukryj ostatnie wyniki</a>
 <div id="times" style="display: none;">
 <h2>Wyniki</h2>
 {% for time in times %}
         <ul class="time">
+            {% avatar time.user 32 %}
         <a href="{% url profile time.user %}">{{ time.user }}</a> pokonał trasę {{ time.rounds }} razy w czasie {{ time }}
                 {% if time.weather or time.part_of_the_day %}
                 	({{ time.get_weather_display }} &middot; {{ time.get_part_of_the_day_display }})
                 {% endif %}
+                {% if time.note %}<p>{{time.note}}</p>{% endif %}
         </ul>
 {% empty %}
        <ul class="time">
