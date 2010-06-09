@@ -118,7 +118,7 @@
 <h2>Wyniki</h2>
 {% for time in times %}
         <ul class="time">
-        <a href="{% url profile time.user %}">{{ time.user }}</a> pokonał trasę {{ time.rounds }} razy w czasie {{ time }}
+        <a href="{% url profile time.user %}">{{ time.user }}</a> pokonał trasę {{ time.rounds }} raz{% ifnotequal time.rounds 1 %}y{% endifnotequal%} w czasie {{ time }}
                 {% if time.weather or time.part_of_the_day %}
                 	({{ time.get_weather_display }} &middot; {{ time.get_part_of_the_day_display }})
                 {% endif %}
