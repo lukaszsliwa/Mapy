@@ -2,16 +2,20 @@
 
 from django import forms
 from models import Time
+from re import compile
 
 """
-.. moduleauthor:: Łukasz Śliwa
+.. moduleauthor:: Łukasz Śliwa, Daniel Borzęcki
 """
+
+seconds_re = compile(r'[0-9][0-9]:[0-9][0-9](:[0-9][0-9])?')
 
 class TimeForm(forms.ModelForm):
     """
     Klasa reprezentuje formularz dodawania wyników.
     """
-    seconds = forms.CharField(required=True, label='Czas')
+    rounds  = forms.IntegerField(required=True, label='Liczba rund')
+    seconds = forms.RegexField(seconds_re,required=True, label='Czas')
     weather = forms.IntegerField(required=False,
         widget=forms.Select(choices=Time.WEATHER),
         label='Pogoda')
@@ -27,6 +31,14 @@ class TimeForm(forms.ModelForm):
         """
         seconds = self.cleaned_data['seconds']
         return Time.to_sec(seconds)
+
+    def clean_rounds(self):
+        """
+        Konwertuje czas przebycia trasy z postaci gg:mm:ss na liczbę sekund.
+        """
+        rounds = self.cleaned_data['rounds']
+        return max(rounds,1)
+
 
     class Meta:
         model = Time
