@@ -4,6 +4,7 @@ from django.test import TestCase
 from models import Map
 from forms import NewMapForm
 from points.models import LatLng
+from django.db import IntegrityError
 
 class MapTest(TestCase):
     def test_empty_map(self):
@@ -11,24 +12,29 @@ class MapTest(TestCase):
         Tworzy pustą mapę.
         '''
         map = Map()
-        self.assertFalse(map.save(), 'Mapa została zapisana')
+        self.assertRaises(IntegrityError, map.save)
 
     def test_new_empty_map_form(self):
         '''
         Tworzy pusty formularz
         '''
-        form = NewMapForm(initial={})
+        form = NewMapForm()
         self.assertFalse(form.is_valid(), 'Formularz jest poprawny')
 
     def test_new_correct_empty_map_form(self):
         '''
         Tworzy poprawny formularz
         '''
-        form = NewMapForm(initial={
+        form = NewMapForm({
             'name': 'Test',
             'tags': 'test1, test2',
             'city': 'Warszawa',
-            'latlngs': '0.1,0.2;0.3,0.4;'
+            'latlngs': '0.1,0.2;0.3,0.4;',
+            'distance': '120.5',
+            'swlat': '0.1',
+            'swlng': '0.2',
+            'nelat': '0.3',
+            'nelng': '0.4',
             })
         self.assertTrue(form.is_valid(), 'Formularz jest niepoprawny')
 
@@ -36,13 +42,18 @@ class MapTest(TestCase):
         '''
         Usuwa mapę po utworzeniu.
         '''
-        form = NewMapForm(initial={
+        form = NewMapForm({
             'name': 'Test',
             'tags': 'test1, test2',
             'city': 'Warszawa',
-            'latlngs': '0.1,0.2;0.3,0.4;'
+            'latlngs': '0.1,0.2;0.3,0.4;',
+            'distance': '120.5',
+            'swlat': '0.1',
+            'swlng': '0.2',
+            'nelat': '0.3',
+            'nelng': '0.4',
             })
-        form.is_valid()
+        self.assertTrue(form.is_valid(), 'Formularz jest niepoprawny')
         map = Map()
         southwest  = LatLng()
         northeast  = LatLng()
@@ -60,4 +71,5 @@ class MapTest(TestCase):
         map.southwest = southwest
         map.northeast = northeast
         map.save()
-        self.assertTrue(map.delete(), 'Nieprawidłowo usunięta mapa')
+        map.delete()
+        self.assertTrue(map.pk is None, 'Nieprawidłowo usunięta mapa')

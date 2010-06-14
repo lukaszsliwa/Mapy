@@ -29,8 +29,9 @@ class Map(models.Model):
             10.0,20.3;20.4,50.4;
 
         Powyższy ciąg zostanie zmieniony w tablicę par.
+            >>> map = Map(latlngs='10.0,20.3;20.4,50.4;')
             >>> map.getlatlngs()
-            [(10.0, 20.3), (20.4, 50.4)]
+            [(10.0, 20.300000000000001), (20.399999999999999, 50.399999999999999)]
 
         """
         result = []
@@ -65,10 +66,11 @@ class Map(models.Model):
         słowa kluczowe oddzielone pojedynczym odstępem.
 
         Metoda zwraca tablicę słów kluczowych.
+            >>> map = Map(tags=u'abc, grunwaldzka, rondo regana')
             >>> map.gettags()
-            ['wroclaw', 'grunwaldzka', 'rondo-regana']
+            [u'abc', u'grunwaldzka', u'rondo regana']
         """
-        return self.tags.split(' ')
+        return [ tag.strip() for tag in self.tags.split(',') ]
 
     def save(self):
         """
