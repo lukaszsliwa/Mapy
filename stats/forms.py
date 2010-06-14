@@ -34,7 +34,7 @@ class TimeForm(forms.ModelForm):
 
     def clean_rounds(self):
         """
-        Konwertuje czas przebycia trasy z postaci gg:mm:ss na liczbę sekund.
+        Sprawdza poprawność pola :mod:`rounds` w formularzu
         """
         rounds = self.cleaned_data['rounds']
         return max(rounds,1)
