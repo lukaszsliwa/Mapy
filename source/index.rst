@@ -19,9 +19,8 @@ Wszelkie zmiany w kodzie były umieszczane w zdalnym repozytorium Git w serwisie
 Wymagania
 =========
 
-* system linuks
-* python 2.6.5
-* django 1.1.1
+* Python 2.5.5 / 2.6.5
+* Django 1.1.1 / 1.2.1
 * SQLite 3.6.20
 * przeglądarka z włączoną obsługą javascript oraz ciasteczek (ang. `cookies`)
 * dostęp do internetu
@@ -32,6 +31,7 @@ Instalacja
 Projekt można pobrać bezpośrednio z `repozytorium <http://github.com/mrplum/Mapy/>`_::
   
   $ git clone git@github.com:mrplum/Mapy.git mapy
+  $ easy_install django-pagination
   $ cd mapy
   $ python manage.py syncdb
   $ python manage.py runserver

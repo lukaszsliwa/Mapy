@@ -63,7 +63,7 @@ class Time(models.Model):
             >>> Time.to_sec('10:23:44')
             37424
             >>> Time.to_sec('10:10')
-            70
+            610
 
         """
         items, hours = map(int, template.split(':')), 0

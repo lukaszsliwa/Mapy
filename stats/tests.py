@@ -13,7 +13,7 @@ class TimeTest(TestCase):
                 for second in range(60):
                     self.assertEquals(
                         Time.to_sec('%s:%s:%s' % (hour, minute, second)),
-                        hour*3600+minute*60+second)
+                        (hour*60+minute)*60+second)
 
     def test_invalid_param_in_to_sec(self):
         """
@@ -36,12 +36,6 @@ class TimeTest(TestCase):
                     time = Time()
                     time.seconds = hour * 3600 + minute * 60 + second
                     self.assertEquals(
-                        u'%s:%s:%s' % (hour, minute, second),
+                        u'%s:%s:%s' % (str(hour).rjust(2,'0'), str(minute).rjust(2,'0'), str(second).rjust(2,'0')),
                         unicode(time), '%s:%s:%s %s' % (hour, minute, second, unicode(time)))
 
-    def test_valid(self):
-        """
-        Sprawdza poprawność formularzy
-        """
-        form = TimeForm()
-        self.assertTrue(form.is_valid(), str(form.errors))
