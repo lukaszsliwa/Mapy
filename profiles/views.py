@@ -11,10 +11,17 @@ from favorites.models import Favorite
 from stats.models import Time
 from datetime import datetime
 from django.db.models import Sum
+from django.contrib import messages
 
 """
 .. moduleauthor:: Łukasz Śliwa
 """
+
+ADDED = 'Twoje konto zostało utworzone. '
+UPDATED = 'Konto zostało zaaktualizowane'
+LOGGED_IN = 'Zostałeś zalogowany.'
+LOGGED_OUT = 'Zostałeś wylogowany.'
+
 
 def _archive(back=3):
     current_month = datetime.now().month
@@ -90,7 +97,12 @@ def new(request):
                     email,
                     password)
                 user.save()
-                return redirect('login')
+                user = auth.authenticate(username=username, password=password)
+                if user is not None:
+                    if user.is_active:
+                        auth.login(request, user)
+                messages.success(request, ADDED)
+                return redirect('my-profile')
             else:
                 form.errors['username'] = [u'Podana nazwa użytkownika lub e-mail już istnieje.']
 
@@ -124,6 +136,7 @@ def edit(request):
             if form.cleaned_data['password']:
                 user.set_password(form.cleaned_data['password'])
             user.save()
+            messages.success(request, UPDATED)
     return direct_to_template(request, 'profiles/edit.html', locals())
 
 def login(request):
@@ -140,6 +153,7 @@ def login(request):
             if user is not None:
                 if user.is_active:
                     auth.login(request, user)
+                    messages.success(request, LOGGED_IN)
                     return redirect('my-profile')
     else:
         form = LoginForm()
@@ -154,4 +168,5 @@ def logout(request):
 
     """
     auth.logout(request)
+    messages.success(request, LOGGED_OUT)
     return redirect('login')

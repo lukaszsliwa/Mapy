@@ -5,10 +5,13 @@ from forms import NewPointForm
 from models import Point
 from django.contrib.auth.decorators import login_required
 from django.http import HttpResponse, HttpResponseRedirect
+from django.contrib import messages
 
 """
 .. moduleauthor:: Daniel Borzęcki
 """
+
+ADDED = 'Punkt został dodany do mapy.'
 
 @login_required
 def new(request):
@@ -26,6 +29,7 @@ def new(request):
             point.desc = form.cleaned_data['desc']
             point.latit = float(form.cleaned_data['latit'])
             point.longi = float(form.cleaned_data['longi'])
+            messages.success(request, ADDED)
             point.save()
     return HttpResponseRedirect('/')
 
