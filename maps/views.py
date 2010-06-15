@@ -11,11 +11,14 @@ from favorites.models import Favorite
 from django.contrib.auth.decorators import login_required
 from django.http import HttpResponse
 from django.core.exceptions import ObjectDoesNotExist
+from django.contrib import messages
 
 """
 .. moduleauthor:: Łukasz Śliwa
 .. moduleauthor:: Daniel Borzęcki
 """
+
+ADDED = 'Trasa została dodana.'
 
 def index(request):
     """
@@ -64,6 +67,7 @@ def new(request):
 	    map.southwest = southwest
 	    map.northeast = northeast
 	    map.save()
+            messages.success(request, ADDED)
             return redirect('map', slug=map.slug, map_id=map.id)
     elif request.method == 'GET':
         form = NewMapForm()

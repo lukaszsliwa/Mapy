@@ -5,10 +5,14 @@ from django.contrib.auth.decorators import login_required
 from forms import TimeForm
 from models import Time
 from maps.models import Map
+from django.contrib import messages
 
 """
 .. moduleauthor:: Łukasz Śliwa
 """
+
+ADDED = 'Wynik został poprawnie dodany.'
+REMOVE = 'Wynik został poprawnie usunięty.'
 
 @login_required
 def new(request, map_id):
@@ -41,6 +45,7 @@ def add(request, map_id):
         time.map = map
         time.user = request.user
         time.save()
+        messages.success(request, ADDED)
         return redirect('my-profile')
     return direct_to_template(request, 'stats/new.html', { 'form': form, 'map': map})
 
@@ -56,5 +61,6 @@ def remove(request, time_id):
     """
     time = Time.objects.get(pk=time_id)
     if time.user == request.user:
+        messages.success(request, REMOVE)
         time.delete()
     return redirect('my-profile')

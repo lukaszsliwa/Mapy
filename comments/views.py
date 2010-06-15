@@ -4,10 +4,13 @@ from forms import CommentForm
 from django.views.generic.simple import direct_to_template
 from django.shortcuts import redirect
 from django.contrib.auth.decorators import login_required
+from django.contrib import messages
 
 """
 .. moduleauthor:: Łukasz Śliwa
 """
+
+CREATED = 'Komentarz został utworzony.'
 
 @login_required
 def create(request, map_id):
@@ -30,5 +33,6 @@ def create(request, map_id):
         comment.user = request.user
         comment.map = map
         comment.save()
+        messages.success(request, CREATED)
         return redirect('map', slug=map.slug, map_id=map.id)
     return direct_to_template(request, 'maps/show.html', { 'comments': comments, 'map': map, 'form': form })

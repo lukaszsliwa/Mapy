@@ -20,6 +20,12 @@ ul {
    list-style-type: none;
 }
 
+ul#messages {
+    border: 1px solid #b8f373;
+    background-color: #d7f4b5;
+    padding: 4px;
+}
+
 h1, h2, h3, h4 {
     font-family: Arial, Verdana;
     border-bottom: 1px dotted #eaeaea;

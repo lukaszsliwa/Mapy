@@ -63,6 +63,7 @@ MIDDLEWARE_CLASSES = (
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'pagination.middleware.PaginationMiddleware',
+    'django.contrib.messages.middleware.MessageMiddleware'
 )
 
 ROOT_URLCONF = 'urls'
@@ -78,6 +79,7 @@ TEMPLATE_CONTEXT_PROCESSORS = (
     'django.core.context_processors.i18n',
     'django.core.context_processors.media',
     'django.core.context_processors.request',
+    'django.contrib.messages.context_processors.messages'
     )
 
 
@@ -87,6 +89,7 @@ INSTALLED_APPS = (
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.sites',
+    'django.contrib.messages',
     'favorites',
     'comments',
     'profiles',
@@ -101,3 +104,6 @@ COMMENTS_APP = 'comments'
 
 LOGIN_URL = '/zaloguj/'
 LOGOUT_URL = '/wyloguj/'
+
+MESSAGE_STORAGE = 'django.contrib.messages.storage.cookie.CookieStorage'
+
