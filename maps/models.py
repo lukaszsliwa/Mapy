@@ -70,7 +70,7 @@ class Map(models.Model):
             >>> map.gettags()
             [u'abc', u'grunwaldzka', u'rondo regana']
         """
-        return [ tag.strip() for tag in self.tags.split(',') ]
+        return [ tag.strip() for tag in self.tags.split() ]
 
     def save(self):
         """

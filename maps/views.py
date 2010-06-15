@@ -29,12 +29,13 @@ def index(request):
         /mapy/?m=Wrocław&tag=sienkiewicza
         
     """
-    maps = Map.objects.all()
+    maps = Map.objects.order_by('-id')
     if request.GET:
 	if "tag" in request.GET:
 	   maps = maps.filter(tags__contains=request.GET['tag'])
 	if "m" in request.GET:
 	   maps = maps.filter(city=request.GET['m'])
+    maps.reverse()
     return direct_to_template(request, 'maps/index.html', { 'maps': maps})
 
 def new(request):
