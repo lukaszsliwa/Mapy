@@ -70,7 +70,7 @@ class Map(models.Model):
             >>> map.gettags()
             [u'abc', u'grunwaldzka', u'rondo regana']
         """
-        return [ tag.strip() for tag in self.tags.split() ]
+        return [ tag.strip() for tag in self.tags.split(',') ]
 
     def save(self):
         """
@@ -79,7 +79,7 @@ class Map(models.Model):
         bez polskich znaków, spacji oraz znaków interpunkcyjnych.
         """
         self.slug = slugify(self.name)
-        self.tags = ' '.join([ slugify(tag.strip()) for tag in self.tags.split(',') ])
+        self.tags = ','.join([ slugify(tag.strip()) for tag in self.tags.split(',') ])
         super(Map, self).save()
 
     def __unicode__(self):
