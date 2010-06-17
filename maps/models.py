@@ -66,11 +66,11 @@ class Map(models.Model):
         słowa kluczowe oddzielone pojedynczym odstępem.
 
         Metoda zwraca tablicę słów kluczowych.
-            >>> map = Map(tags=u'abc grunwaldzka rondo-regana')
+            >>> map = Map(tags=u'abc, grunwaldzka, rondo regana')
             >>> map.gettags()
-            [u'abc', u'grunwaldzka', u'rondo-regana']
+            [u'abc', u'grunwaldzka', u'rondo regana']
         """
-        return [ tag.strip() for tag in self.tags.split(' ') ]
+        return [ tag.strip() for tag in self.tags.split(',') ]
 
     def save(self):
         """
